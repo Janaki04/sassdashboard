@@ -4,10 +4,10 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-   theme: {
+  theme: {
     extend: {
-        fontFamily: {
-        sans: ['"Nunito Sans"', 'sans-serif'],
+      fontFamily: {
+        nunito: ['Nunito', 'sans-serif'],
       },
     },
   },
