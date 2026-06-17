@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Calendar, MapPin, Trash2, Camera, Download, Printer, Plus } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
   if (!isOpen) return null;
@@ -26,6 +27,11 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
       return p;
     }));
   };
+  const handlesend=(text)=>{
+    toast.success(text)
+    onClose() 
+
+  }
 
   const addRow = () => {
     setProducts([...products, { id: Date.now(), name: '', rate: 0, qty: 1 }]);
@@ -62,7 +68,7 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
         </button>
 
         <form onSubmit={handleSubmit} className="w-full lg:w-1/2 p-6 lg:p-8 overflow-y-auto bg-white space-y-6">
-          <h2 className="text-xl font-bold text-[#0d1424]">Create New Invoice</h2>
+          <h2 className="text-start text-xl font-bold text-[#0d1424]">Create New Invoice</h2>
 
           <div className="flex justify-center">
             <div className="w-24 h-24 rounded-full bg-slate-50 border border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 hover:bg-slate-100/80 cursor-pointer transition-colors">
@@ -72,11 +78,11 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-[#0d1424]">Invoice Id</label>
+              <label className="flex text-sm font-semibold text-[#0d1424]">Invoice Id</label>
               <input type="text" value={form.id} onChange={e => setForm({...form, id: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
             </div>
             <div className="space-y-1.5 relative">
-              <label className="text-sm font-semibold text-[#0d1424]">Date</label>
+              <label className="flex text-sm font-semibold text-[#0d1424]">Date</label>
               <div className="relative">
                 <input type="date" value={form.date} onChange={e => setForm({...form, date: e.target.value})} className="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 <Calendar size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-indigo-500 pointer-events-none" />
@@ -85,17 +91,17 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold text-[#0d1424]">Name</label>
+            <label className="flex text-sm font-semibold text-[#0d1424]">Name</label>
             <input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-[#0d1424]">Email</label>
+              <label className="flex text-sm font-semibold text-[#0d1424]">Email</label>
               <input type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
             </div>
             <div className="space-y-1.5 relative">
-              <label className="text-sm font-semibold text-[#0d1424]">Address</label>
+              <label className="flex text-sm font-semibold text-[#0d1424]">Address</label>
               <div className="relative">
                 <input type="text" value={form.address} onChange={e => setForm({...form, address: e.target.value})} className="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 <MapPin size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-indigo-500 pointer-events-none" />
@@ -105,7 +111,7 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-[#0d1424]">Product Description</h3>
+              <h3 className="text-start text-sm font-bold text-[#0d1424]">Product Description</h3>
               <button type="button" onClick={addRow} className="p-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
                 <Plus size={16} />
               </button>
@@ -113,10 +119,10 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
 
             <div className="space-y-2">
               <div className="grid grid-cols-12 gap-2 text-xs font-semibold text-gray-400 px-1">
-                <div className="col-span-5">Product Name</div>
-                <div className="col-span-3">Rate</div>
-                <div className="col-span-2">QTY</div>
-                <div className="col-span-2 text-right">Amount</div>
+                <div className="flex col-span-5">Product Name</div>
+                <div className="flex col-span-3">Rate</div>
+                <div className="flex col-span-2">QTY</div>
+                <div className="flex col-span-2 text-right">Amount</div>
               </div>
 
               {products.map(product => (
@@ -142,10 +148,14 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
           </div>
 
           <div className="flex items-center gap-4 pt-4 border-t border-gray-50">
-            <button type="button" onClick={onClose} className="flex-1 py-3 text-sm font-bold text-indigo-600 bg-white border border-gray-100 rounded-xl hover:bg-slate-50 transition-colors text-center">
+            <button type="button" 
+            onClick ={()=>{handlesend("Send Created Sucessfully")}}
+            className="flex-1 py-3 text-sm font-bold text-indigo-600 bg-white border border-gray-100 rounded-xl hover:bg-slate-50 transition-colors text-center">
               Send Invoice
             </button>
-            <button type="submit" className="flex-1 py-3 text-sm font-bold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition-all shadow-md shadow-indigo-100 text-center">
+            <button 
+            onClick ={()=>{handlesend("Invoice Created Sucessfully")}}
+            type="submit" className="flex-1 py-3 text-sm font-bold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition-all shadow-md shadow-indigo-100 text-center">
               Create Invoice
             </button>
           </div>
@@ -153,7 +163,7 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
 
         <div className="w-full lg:w-1/2 p-6 lg:p-8 bg-[#f8fafc] overflow-y-auto space-y-4 flex flex-col">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-[#0d1424]">Preview</h2>
+            <h2 className="text-start text-lg font-bold text-[#0d1424]">Preview</h2>
             <div className="flex items-center gap-2">
               <button className="p-2 bg-white rounded-xl shadow-sm border border-slate-100 text-indigo-600 hover:text-indigo-700">
                 <Download size={16} />
@@ -169,22 +179,22 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
               <div className="flex justify-between items-start">
                 <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-base">J</div>
                 <div className="text-right space-y-0.5 text-[9px]">
-                  <p>your.mail@gmail.com</p>
-                  <p>+386 989 271 3115</p>
+                  <p className='text-start'>your.mail@gmail.com</p>
+                  <p className='text-start'>+386 989 271 3115</p>
                 </div>
               </div>
 
               <div className="flex justify-between items-end mt-6">
                 <div className="space-y-1">
-                  <p className="text-[9px] uppercase tracking-wider font-bold text-slate-400">Recipient</p>
-                  <p className="font-bold text-slate-800">{form.name || 'John Smith'}</p>
-                  <p className="text-[10px] leading-relaxed">4304 Liberty Avenue<br/>92680 Tustin, CA<br/>VAT no.: 12345678</p>
-                  <p className="pt-1 text-[9px] text-indigo-500">{form.email}</p>
+                  <p className="text-start text-[9px] uppercase tracking-wider font-bold text-slate-400">Recipient</p>
+                  <p className="text-start font-bold text-slate-800">{form.name || 'John Smith'}</p>
+                  <p className="text-start text-[10px] leading-relaxed">4304 Liberty Avenue<br/>92680 Tustin, CA<br/>VAT no.: 12345678</p>
+                  <p className="text-start pt-1 text-[9px] text-indigo-500">{form.email}</p>
                 </div>
                 <div className="text-right space-y-1">
-                  <h3 className="text-lg font-bold text-slate-800 tracking-tight leading-none mb-1">Invoice</h3>
-                  <p><span className="font-semibold text-slate-400 text-[9px]">INVOICE NO.</span> <br/>{form.id || '001/2021'}</p>
-                  <p><span className="font-semibold text-slate-400 text-[9px]">INVOICE DATE</span> <br/>{form.date || 'January 1, 2021'}</p>
+                  <h3 className="text-start text-lg font-bold text-slate-800 tracking-tight leading-none mb-1">Invoice</h3>
+                  <p><span className="text-start font-semibold text-slate-400 text-[9px]">INVOICE NO.</span> <br/>{form.id || '001/2021'}</p>
+                  <p><span className="text-start font-semibold text-slate-400 text-[9px]">INVOICE DATE</span> <br/>{form.date || 'January 1, 2021'}</p>
                 </div>
               </div>
 

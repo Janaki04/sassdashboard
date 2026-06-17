@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Calendar as CalendarIcon, Clock, MapPin, Search, Edit2, Trash2, ChevronLeft, ChevronRight, X, Camera, ChevronDown } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 export default function ScheduleView() {
   const [schedules, setSchedules] = useState([
@@ -48,6 +49,10 @@ export default function ScheduleView() {
       setSelectedIds([]);
     }
   };
+
+  const handlesubmit=()=>{
+    toast.success("Schedule created sucessfully")
+  }
 
   const handleSelectRow = (id) => {
     setSelectedIds(prev => 
@@ -290,7 +295,7 @@ export default function ScheduleView() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700">Schedule Title / Target Name</label>
+              <label className="flex text-xs font-bold text-slate-700">Schedule Title / Target Name</label>
               <input 
                 type="text"
                 placeholder="John"
@@ -301,7 +306,7 @@ export default function ScheduleView() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700">Event Date</label>
+              <label className="flex text-xs font-bold text-slate-700">Event Date</label>
               <input 
                 type="date"
                 required
@@ -312,7 +317,7 @@ export default function ScheduleView() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700">Event Time</label>
+              <label className="flex text-xs font-bold text-slate-700">Event Time</label>
               <input 
                 type="time"
                 required
@@ -323,7 +328,7 @@ export default function ScheduleView() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700">Location Type Select</label>
+              <label className="flex text-xs font-bold text-slate-700">Location Type Select</label>
               <div className="relative">
                 <select
                   value={newSchedule.type}
@@ -345,6 +350,7 @@ export default function ScheduleView() {
             <div className="pt-6">
               <button 
                 type="submit"
+                onClick={handlesubmit}
                 className="w-full py-4 bg-[#5551ff] hover:bg-[#4440ef] text-white rounded-xl text-xs font-black tracking-wide transition-all shadow-lg shadow-indigo-100"
               >
                 Add Schedule

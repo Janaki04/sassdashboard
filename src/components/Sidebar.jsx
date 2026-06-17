@@ -4,6 +4,7 @@ import {
   MessageSquare, Settings, X, LogOut, CheckCircle2, AlertTriangle
 } from 'lucide-react';
 import logo from "../assets/Subtract.png";
+import { toast } from 'react-toastify';
 
 export default function Sidebar({ isOpen, toggleSidebar, activeTab, setActiveTab, onLogOut }) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -23,6 +24,10 @@ export default function Sidebar({ isOpen, toggleSidebar, activeTab, setActiveTab
     setShowConfirmModal(false);
     setShowSuccessModal(true);
   };
+
+  const handleupdate=()=>{
+    toast.success("New version upgrade sucessfully")
+  }
 
   const handleFinalRedirect = () => {
     setShowSuccessModal(false);
@@ -107,7 +112,7 @@ export default function Sidebar({ isOpen, toggleSidebar, activeTab, setActiveTab
           <div className="w-12 h-12 bg-white rounded-full mx-auto mb-4 flex items-center justify-center shadow-md shadow-indigo-200 relative z-10">
             <img src={logo} className="w-5 h-5 object-contain" alt="Upgrade" />
           </div>
-          <button className="w-full bg-[#5551ff] hover:bg-[#4440ef] text-white text-[11px] font-extrabold py-2.5 px-4 rounded-xl transition-all shadow-md shadow-indigo-100 z-10 relative">
+          <button onClick={handleupdate} className="w-full bg-[#5551ff] hover:bg-[#4440ef] text-white text-[11px] font-extrabold py-2.5 px-4 rounded-xl transition-all shadow-md shadow-indigo-100 z-10 relative">
             Upgrade Now
           </button>
         </div>

@@ -12,6 +12,9 @@ import SettingsScreen from "./pages/SettingsScreen"
 import LogInView from './pages/LogInView';
 import SignUpView from './pages/SignUpView';
 
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -107,6 +110,17 @@ export default function App() {
           {viewRegistry[activeTab] || <Dashboard />}
         </main>
       </div>
+            <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="light"
+      />
+
     </div>
   );
 }

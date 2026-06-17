@@ -326,26 +326,26 @@ export default function AnalyticsView() {
           <div className="col-span-12 lg:col-span-4 bg-white border border-slate-100 rounded-3xl p-6 space-y-6 shadow-2xs position-sticky top-6">
             <div className="flex flex-col items-center text-center pb-2">
               <img src={currentCustomer.avatar} alt="" className="w-16 h-16 rounded-full object-cover border-2 border-white ring-4 ring-[#EEEDFD] shadow-md mb-3" />
-              <h3 className="text-base font-black text-[#0B0E1F] tracking-tight">{currentCustomer.name}</h3>
-              <p className="text-[11px] font-bold text-slate-400 mt-0.5">{currentCustomer.role}</p>
+              <h3 className="text-start text-base font-black text-[#0B0E1F] tracking-tight">{currentCustomer.name}</h3>
+              <p className="text-start text-[11px] font-bold text-slate-400 mt-0.5">{currentCustomer.role}</p>
             </div>
 
             <hr className="border-slate-50" />
 
             <div className="space-y-4">
-              <h4 className="text-xs font-black text-slate-800 tracking-wide uppercase">Contact Info</h4>
+              <h4 className="text-start text-xs font-black text-slate-800 tracking-wide uppercase">Contact Info</h4>
               <div className="space-y-3.5 text-xs font-bold text-slate-500">
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-[#F8F9FB] rounded-xl text-slate-400"><Mail size={14} /></div>
-                  <span className="truncate">{currentCustomer.email}</span>
+                  <span className="text-start truncate">{currentCustomer.email}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[#F8F9FB] rounded-xl text-slate-400"><Phone size={14} /></div>
+                  <div className="flex p-2 bg-[#F8F9FB] rounded-xl text-slate-400"><Phone size={14} /></div>
                   <span>{currentCustomer.phone}</span>
                 </div>
                 <div className="flex items-center gap-3 items-start">
                   <div className="p-2 bg-[#F8F9FB] rounded-xl text-slate-400 mt-0.5"><MapPin size={14} /></div>
-                  <span className="leading-relaxed text-slate-500/90">{currentCustomer.address}</span>
+                  <span className="text-start leading-relaxed text-slate-500/90">{currentCustomer.address}</span>
                 </div>
               </div>
             </div>
@@ -443,7 +443,7 @@ export default function AnalyticsView() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-[11px] font-black text-slate-500 uppercase tracking-wide">First Name</label>
+                <label className="flex text-[11px] font-black text-slate-500 uppercase tracking-wide">First Name</label>
                 <input 
                   type="text" 
                   required
@@ -454,7 +454,7 @@ export default function AnalyticsView() {
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="text-[11px] font-black text-slate-500 uppercase tracking-wide">Last Name</label>
+                <label className="flex text-[11px] font-black text-slate-500 uppercase tracking-wide">Last Name</label>
                 <input 
                   type="text"
                   placeholder="Deo"
@@ -466,7 +466,7 @@ export default function AnalyticsView() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[11px] font-black text-slate-500 uppercase tracking-wide">Email</label>
+              <label className="flex text-[11px] font-black text-slate-500 uppercase tracking-wide">Email</label>
               <input 
                 type="email" 
                 required
@@ -478,7 +478,7 @@ export default function AnalyticsView() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[11px] font-black text-slate-500 uppercase tracking-wide">Phone Number</label>
+              <label className="flex text-[11px] font-black text-slate-500 uppercase tracking-wide">Phone Number</label>
               <input 
                 type="text" 
                 placeholder="33757005467"
@@ -489,7 +489,7 @@ export default function AnalyticsView() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[11px] font-black text-slate-500 uppercase tracking-wide">Gender</label>
+              <label className="flex text-[11px] font-black text-slate-500 uppercase tracking-wide">Gender</label>
               <div className="relative">
                 <select
                   value={newCustomer.gender}

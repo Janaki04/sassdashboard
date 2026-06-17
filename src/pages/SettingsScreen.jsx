@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { User, Lock, Bell, ChevronDown, Camera, Check, ShieldCheck, Mail, Eye } from 'lucide-react';
+import { toast } from "react-toastify";
 
 export default function SettingsScreen() {
   const [innerTab, setInnerTab] = useState('Profile'); 
@@ -15,7 +16,7 @@ export default function SettingsScreen() {
 
   const handleSaveSettings = (e) => {
     e.preventDefault();
-    alert('Global dashboard configuration updated successfully!');
+    toast.success('Changes updated successfully!');
   };
 
   return (
@@ -56,8 +57,8 @@ export default function SettingsScreen() {
         {innerTab === 'Profile' && (
           <div className="animate-in fade-in duration-150 space-y-6">
             <div>
-              <h3 className="text-sm font-black text-[#0B0E1F] tracking-tight">Profile Setup</h3>
-              <p className="text-xs text-slate-400 mt-1">Configure identity profile attributes distributed across dashboard analytics.</p>
+              <h3 className="text-start text-sm font-black text-[#0B0E1F] tracking-tight">Profile Setup</h3>
+              <p className="text-start text-xs text-slate-400 mt-1">Configure identity profile attributes distributed across dashboard analytics.</p>
             </div>
             
             <hr className="border-slate-50" />
@@ -75,14 +76,14 @@ export default function SettingsScreen() {
                   </div>
                 </div>
                 <div>
-                  <h4 className="text-xs font-black text-slate-700">Profile Asset Cover</h4>
-                  <p className="text-[10px] font-bold text-slate-400 mt-0.5">Supports PNG, JPG, or GIF formats. Maximum file threshold 4MB.</p>
+                  <h4 className="text-start text-xs font-black text-slate-700">Profile Asset Cover</h4>
+                  <p className="text-start text-[10px] font-bold text-slate-400 mt-0.5">Supports PNG, JPG, or GIF formats. Maximum file threshold 4MB.</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-wide">First Name</label>
+                  <label className="flex text-[11px] font-black text-slate-400 uppercase tracking-wide">First Name</label>
                   <input 
                     type="text" 
                     value={profile.firstName}
@@ -91,7 +92,7 @@ export default function SettingsScreen() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-wide">Last Name</label>
+                  <label className="flex text-[11px] font-black text-slate-400 uppercase tracking-wide">Last Name</label>
                   <input 
                     type="text" 
                     value={profile.lastName}
@@ -102,7 +103,7 @@ export default function SettingsScreen() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[11px] font-black text-slate-400 uppercase tracking-wide">Primary Account Contact Email</label>
+                <label className="flex text-[11px] font-black text-slate-400 uppercase tracking-wide">Primary Account Contact Email</label>
                 <div className="relative">
                   <input 
                     type="email" 
@@ -116,7 +117,7 @@ export default function SettingsScreen() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-wide">Language preference</label>
+                  <label className="flex text-[11px] font-black text-slate-400 uppercase tracking-wide">Language preference</label>
                   <div className="relative">
                     <select 
                       value={profile.language}
@@ -132,7 +133,7 @@ export default function SettingsScreen() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-black text-slate-400 uppercase tracking-wide">System Regional Timezone</label>
+                  <label className="flex text-[11px] font-black text-slate-400 uppercase tracking-wide">System Regional Timezone</label>
                   <div className="relative">
                     <select 
                       value={profile.timezone}
@@ -165,8 +166,8 @@ export default function SettingsScreen() {
         {innerTab === 'Security' && (
           <div className="animate-in fade-in duration-150 space-y-6">
             <div>
-              <h3 className="text-sm font-black text-[#0B0E1F] tracking-tight">Security Credentials</h3>
-              <p className="text-xs text-slate-400 mt-1">Manage network data protection layers, passcode sequences and access keys.</p>
+              <h3 className="text-start text-sm font-black text-[#0B0E1F] tracking-tight">Security Credentials</h3>
+              <p className="text-start text-xs text-slate-400 mt-1">Manage network data protection layers, passcode sequences and access keys.</p>
             </div>
             
             <hr className="border-slate-50" />
@@ -176,8 +177,8 @@ export default function SettingsScreen() {
                 <div className="flex items-center gap-3.5">
                   <div className="p-2.5 bg-indigo-50 text-[#5551ff] rounded-xl"><ShieldCheck size={16} /></div>
                   <div>
-                    <h4 className="text-xs font-black text-slate-800">Two-Factor Mobile Authentication</h4>
-                    <p className="text-[11px] font-bold text-slate-400 mt-0.5">Enforces protective secondary confirmation checks on account logs.</p>
+                    <h4 className="text-start text-xs font-black text-slate-800">Two-Factor Mobile Authentication</h4>
+                    <p className="text-start text-[11px] font-bold text-slate-400 mt-0.5">Enforces protective secondary confirmation checks on account logs.</p>
                   </div>
                 </div>
                 <div className="w-10 h-6 bg-[#5551ff] rounded-full p-1 cursor-pointer flex justify-end items-center transition-all">
@@ -189,8 +190,8 @@ export default function SettingsScreen() {
                 <div className="flex items-center gap-3.5">
                   <div className="p-2.5 bg-slate-100 text-slate-500 rounded-xl"><Eye size={16} /></div>
                   <div>
-                    <h4 className="text-xs font-black text-slate-800">In-Session Metadata Tracking</h4>
-                    <p className="text-[11px] font-bold text-slate-400 mt-0.5">Records precise timestamps across connected terminal locations.</p>
+                    <h4 className="text-start text-xs font-black text-slate-800">In-Session Metadata Tracking</h4>
+                    <p className="text-start text-[11px] font-bold text-slate-400 mt-0.5">Records precise timestamps across connected terminal locations.</p>
                   </div>
                 </div>
                 <div className="w-10 h-6 bg-slate-200 rounded-full p-1 cursor-pointer flex justify-start items-center transition-all">
@@ -204,8 +205,8 @@ export default function SettingsScreen() {
         {innerTab === 'Notification' && (
           <div className="animate-in fade-in duration-150 space-y-6">
             <div>
-              <h3 className="text-sm font-black text-[#0B0E1F] tracking-tight">Notification Channels</h3>
-              <p className="text-xs text-slate-400 mt-1">Isolate and direct automated pipeline alert streams to preferred addresses.</p>
+              <h3 className="text-start text-sm font-black text-[#0B0E1F] tracking-tight">Notification Channels</h3>
+              <p className="text-start text-xs text-slate-400 mt-1">Isolate and direct automated pipeline alert streams to preferred addresses.</p>
             </div>
             
             <hr className="border-slate-50" />
@@ -220,7 +221,7 @@ export default function SettingsScreen() {
                   <div className={`w-5 h-5 rounded-md flex items-center justify-center cursor-pointer border transition-colors ${notif.state ? 'bg-[#5551ff] border-transparent text-white' : 'bg-white border-slate-200 text-transparent'}`}>
                     <Check size={12} className="stroke-[3]" />
                   </div>
-                  <span className="text-xs font-bold text-slate-600 leading-tight">{notif.title}</span>
+                  <span className="text-start text-xs font-bold text-slate-600 leading-tight">{notif.title}</span>
                 </div>
               ))}
             </div>

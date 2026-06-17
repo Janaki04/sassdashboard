@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronLeft, Camera, Briefcase, DollarSign, FileText, CheckSquare, Square } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
   const [productName, setProductName] = useState('MacBook Pro 2021 14"');
@@ -9,6 +10,10 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
   const [description, setDescription] = useState(
     'This the New creation Of apple. This the New creation Of apple This the New creation Of apple This the New creation Of apple.'
   );
+
+    const handleschedule=()=>{
+      toast.success("Event created sucessfully")
+    }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +53,7 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
             >
               <ChevronLeft size={16} />
             </button>
-            <h2 className="text-sm font-bold text-slate-800 tracking-tight">Add a New Product</h2>
+            <h2 className="text-start text-sm font-bold text-slate-800 tracking-tight">Add a New Product</h2>
           </div>
 
           <div className="flex justify-center py-4">
@@ -61,7 +66,7 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
           <form id="drawer-product-form" onSubmit={handleSubmit} className="space-y-4">
             
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-slate-500">Product Name</label>
+              <label className="flex text-[11px] font-bold text-slate-500">Product Name</label>
               <input 
                 type="text" 
                 value={productName}
@@ -71,7 +76,7 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-slate-500">Brand</label>
+              <label className="flex text-[11px] font-bold text-slate-500">Brand</label>
               <div className="relative">
                 <select 
                   value={brand}
@@ -89,7 +94,7 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-slate-500">Price</label>
+              <label className="flex text-[11px] font-bold text-slate-500">Price</label>
               <div className="flex items-center gap-4">
                 <div className="relative flex-1">
                   <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">$</span>
@@ -116,7 +121,7 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold text-slate-500">Descriptions</label>
+              <label className="flex text-[11px] font-bold text-slate-500">Descriptions</label>
               <textarea 
                 rows={4}
                 value={description}
@@ -130,6 +135,7 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
 
         <div className="p-4 border-t border-slate-50 bg-white">
           <button 
+          onClick={handleschedule}
             type="submit"
             form="drawer-product-form"
             className="w-full bg-[#5551ff] hover:bg-[#4440ef] text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-indigo-100"
