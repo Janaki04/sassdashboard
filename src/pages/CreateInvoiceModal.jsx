@@ -35,7 +35,6 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
     setProducts(products.filter(p => p.id !== id));
   };
 
-  // Calculations
   const subtotal = products.reduce((acc, curr) => acc + (curr.rate * curr.qty), 0);
   const discount = subtotal * 0.05; // 5% discount matching design
   const total = subtotal - discount;
@@ -58,23 +57,19 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
     <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
       <div className="bg-[#f8fafc] rounded-3xl w-full max-w-6xl shadow-2xl flex flex-col lg:flex-row max-h-[90vh] overflow-hidden relative border border-white">
         
-        {/* Close Button Top Right */}
         <button onClick={onClose} className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 z-10 p-1 bg-white rounded-full shadow-sm">
           <X size={20} />
         </button>
 
-        {/* LEFT COLUMN: Create Form */}
         <form onSubmit={handleSubmit} className="w-full lg:w-1/2 p-6 lg:p-8 overflow-y-auto bg-white space-y-6">
           <h2 className="text-xl font-bold text-[#0d1424]">Create New Invoice</h2>
 
-          {/* Profile Image Circle */}
           <div className="flex justify-center">
             <div className="w-24 h-24 rounded-full bg-slate-50 border border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 hover:bg-slate-100/80 cursor-pointer transition-colors">
               <Camera size={24} className="text-slate-400 mb-1" />
             </div>
           </div>
 
-          {/* Id and Date inputs */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-sm font-semibold text-[#0d1424]">Invoice Id</label>
@@ -89,13 +84,11 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
             </div>
           </div>
 
-          {/* Name input */}
           <div className="space-y-1.5">
             <label className="text-sm font-semibold text-[#0d1424]">Name</label>
             <input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
           </div>
 
-          {/* Email and Address inputs */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-sm font-semibold text-[#0d1424]">Email</label>
@@ -110,7 +103,6 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
             </div>
           </div>
 
-          {/* Product Items Table Layout */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold text-[#0d1424]">Product Description</h3>
@@ -149,7 +141,6 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
             </div>
           </div>
 
-          {/* Action Buttons */}
           <div className="flex items-center gap-4 pt-4 border-t border-gray-50">
             <button type="button" onClick={onClose} className="flex-1 py-3 text-sm font-bold text-indigo-600 bg-white border border-gray-100 rounded-xl hover:bg-slate-50 transition-colors text-center">
               Send Invoice
@@ -160,7 +151,6 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
           </div>
         </form>
 
-        {/* RIGHT COLUMN: Print Layout Preview */}
         <div className="w-full lg:w-1/2 p-6 lg:p-8 bg-[#f8fafc] overflow-y-auto space-y-4 flex flex-col">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold text-[#0d1424]">Preview</h2>
@@ -174,10 +164,8 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
             </div>
           </div>
 
-          {/* Miniature Invoice Paper Box */}
           <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm text-[11px] text-slate-500 space-y-6 flex-1 flex flex-col justify-between">
             <div>
-              {/* Header block */}
               <div className="flex justify-between items-start">
                 <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-base">J</div>
                 <div className="text-right space-y-0.5 text-[9px]">
@@ -186,7 +174,6 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
                 </div>
               </div>
 
-              {/* Recipient info row */}
               <div className="flex justify-between items-end mt-6">
                 <div className="space-y-1">
                   <p className="text-[9px] uppercase tracking-wider font-bold text-slate-400">Recipient</p>
@@ -201,7 +188,6 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
                 </div>
               </div>
 
-              {/* Items listing row */}
               <table className="w-full mt-8 border-collapse">
                 <thead>
                   <tr className="border-b border-slate-100 text-[9px] text-slate-400 font-bold uppercase tracking-wider">
@@ -224,7 +210,6 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
               </table>
             </div>
 
-            {/* Total aggregation block */}
             <div className="space-y-4">
               <div className="w-1/2 ml-auto space-y-1.5 border-t border-slate-100 pt-3 text-[10px]">
                 <div className="flex justify-between">
@@ -241,7 +226,6 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
                 </div>
               </div>
 
-              {/* Footer Terms */}
               <div className="text-center text-[8px] text-slate-400 border-t border-slate-100 pt-4 space-y-1">
                 <p>Transfer the amount to the business account below. Please include invoice number on your check.</p>
                 <p className="font-medium text-slate-600">BANK: <span className="font-bold text-slate-800">FTSBUS33</span> • IBAN: <span className="font-bold text-slate-800">GB82-1111-2222-3333</span></p>

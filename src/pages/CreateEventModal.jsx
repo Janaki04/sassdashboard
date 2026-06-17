@@ -25,10 +25,8 @@ function CreateEventModal({ isOpen, onClose, onSave }) {
 
   return (
     <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-[2px] z-50 flex items-center justify-center p-4">
-      {/* Modal Wrapper Box */}
       <div className="bg-white rounded-[28px] w-full max-w-lg shadow-2xl p-6 relative border border-slate-100 animate-in fade-in zoom-in-95 duration-150">
         
-        {/* Close Button Cross Icon */}
         <button 
           onClick={onClose} 
           className="absolute right-5 top-5 p-1.5 bg-rose-50 text-rose-500 hover:bg-rose-100 rounded-full transition-colors"
@@ -39,7 +37,6 @@ function CreateEventModal({ isOpen, onClose, onSave }) {
         <h2 className="text-lg font-bold text-slate-900 mb-5">Create an Event</h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Pill Selector Menu Category Tabs */}
           <div className="flex bg-slate-50 p-1 rounded-xl w-fit border border-slate-100">
             {tabs.map((tab) => (
               <button
@@ -57,7 +54,6 @@ function CreateEventModal({ isOpen, onClose, onSave }) {
             ))}
           </div>
 
-          {/* Core Title input element row */}
           <div>
             <input
               type="text"
@@ -69,9 +65,7 @@ function CreateEventModal({ isOpen, onClose, onSave }) {
             />
           </div>
 
-          {/* Meta Info Section Rows */}
           <div className="space-y-4 text-xs font-medium text-slate-600">
-            {/* Time Slot Row Line item */}
             <div className="flex items-start gap-4">
               <div className="p-2 bg-orange-50 text-orange-500 rounded-full mt-0.5">
                 <Clock size={16} fill="currentColor" className="text-white" />
@@ -89,7 +83,6 @@ function CreateEventModal({ isOpen, onClose, onSave }) {
               </div>
             </div>
 
-            {/* People Profile dynamic tagging option item */}
             <div className="flex items-center gap-4">
               <button 
                 type="button" 
@@ -107,7 +100,6 @@ function CreateEventModal({ isOpen, onClose, onSave }) {
               </button>
             </div>
 
-            {/* Account Visibility details element block info */}
             <div className="flex items-start gap-4 pt-2">
               <div className="p-2 bg-orange-50 text-orange-400 rounded-full mt-0.5">
                 <Globe size={16} />
@@ -119,7 +111,6 @@ function CreateEventModal({ isOpen, onClose, onSave }) {
             </div>
           </div>
 
-          {/* Action Ribbon Form Submission buttons block footer */}
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-50">
             <button
               type="button"

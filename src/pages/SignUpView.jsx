@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Sparkles } from 'lucide-react';
+import register from "../assets/Illustration (1).png"
+import logo from "../assets/Subtract.png";
+
 
 export default function SignUpView({ onNavigateToLogin, onAuthSuccess }) {
-  const [fullName, setFullName] = useState('Jiangyu');
-  const [email, setEmail] = useState('example@gmail.com');
-  const [username, setUsername] = useState('johnkevine4362');
-  const [password, setPassword] = useState('••••••••');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -23,30 +26,25 @@ export default function SignUpView({ onNavigateToLogin, onAuthSuccess }) {
       return;
     }
 
-    // Set configuration payloads directly inside persistent local storage units
     localStorage.setItem('userProfile', JSON.stringify({ fullName, email, username, password }));
     localStorage.setItem('isLoggedIn', 'true');
     
-    // Trigger callback routing animation sequence
     onAuthSuccess();
   };
 
   return (
     <div className="w-full min-h-screen bg-white flex flex-col lg:flex-row font-sans overflow-hidden animate-in fade-in slide-in-from-right-4 duration-300">
       
-      {/* LEFT SECTION Column Panel: Core Interaction Registration Input Fields */}
       <div className="w-full lg:w-[420px] shrink-0 p-8 sm:p-12 xl:p-16 flex flex-col justify-center bg-white z-10 relative">
         <div className="max-w-sm w-full mx-auto space-y-7">
           
-          {/* Logo element styling branding header block section */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-4">
-            <div className="w-14 h-14 bg-[#5551ff] text-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-100">
-              <Sparkles size={24} fill="currentColor" />
+            <div className="w-14 h-14  text-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-100">
+             <img src={logo}/>
             </div>
             <h2 className="text-2xl font-black text-slate-900 tracking-tight">Sign Up</h2>
           </div>
 
-          {/* Social connection direct alternate authentication pathways ribbon panel */}
           <div className="grid grid-cols-2 gap-3">
             <button type="button" className="flex items-center justify-center gap-2 py-2.5 px-4 bg-[#f8fafc] hover:bg-slate-100 rounded-xl border border-slate-100 text-xs font-bold text-slate-700 transition-colors">
               <img src="https://docs.imgix.net/assets/images/sandbox/google-logo.svg" alt="" className="w-3.5 h-3.5" />
@@ -58,14 +56,12 @@ export default function SignUpView({ onNavigateToLogin, onAuthSuccess }) {
             </button>
           </div>
 
-          {/* Text intersection rule ribbon indicator layer alignment */}
           <div className="relative flex py-1 items-center">
             <div className="flex-grow border-t border-slate-100"></div>
             <span className="flex-shrink mx-4 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Or</span>
             <div className="flex-grow border-t border-slate-100"></div>
           </div>
 
-          {/* Active Registration Form field items stack */}
           <form onSubmit={handleRegisterSubmit} className="space-y-4">
             {errorMsg && (
               <div className="p-3 bg-rose-50 rounded-xl text-[11px] font-bold text-rose-500 border border-rose-100">{errorMsg}</div>
@@ -122,7 +118,6 @@ export default function SignUpView({ onNavigateToLogin, onAuthSuccess }) {
               </button>
             </div>
 
-            {/* Checkbox tracking module alignment rows */}
             <div className="flex items-start gap-2.5 pt-1">
               <input 
                 type="checkbox" 
@@ -143,7 +138,6 @@ export default function SignUpView({ onNavigateToLogin, onAuthSuccess }) {
             </button>
           </form>
 
-          {/* Swap page view routing toggle triggers footers link section */}
           <div className="text-center text-xs font-medium text-slate-400 pt-2">
             Already have an account?{' '}
             <button onClick={onNavigateToLogin} className="text-[#5551ff] hover:underline font-bold">Log in</button>
@@ -152,14 +146,11 @@ export default function SignUpView({ onNavigateToLogin, onAuthSuccess }) {
         </div>
       </div>
 
-      {/* RIGHT SECTION Column Panel: High fidelity vector background canvas display container workspace */}
       <div className="flex-1 bg-[#f8fafc] hidden lg:flex items-center justify-center p-12 border-l border-slate-100">
         <div className="max-w-xl w-full text-center relative animate-fade-in">
-          {/* Main layout composition vector simulation structure mapping precisely to design snapshots layout elements */}
           <div className="relative inline-block">
-            {/* Desktop platform furniture vector illustration simulation cards widgets mockup frame context */}
             <img 
-              src="https://img.freepik.com/free-vector/flat-design-isometric-working-day-concept-illustrated_52683-61118.jpg?w=1000" 
+              src={register} 
               alt="Workspace Overview Vector Sketch Representation" 
               className="w-full h-auto max-h-[500px] object-contain rounded-3xl mix-blend-multiply opacity-90"
             />

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Search, Plus, Phone, Video, MoreVertical, Paperclip, Smile, Send } from 'lucide-react';
 
 export default function ChatView() {
-  // Mock Data for Chat Threads
   const [threads, setThreads] = useState([
     { id: 1, name: 'Shelby Goode', text: 'Lorem Ipsum is simply dummy text of the printing', time: '1 min ago', online: true, category: 'Personal', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80' },
     { id: 2, name: 'Robert Bacins', text: 'Lorem Ipsum is simply dummy text of the printing', time: '9 min ago', online: false, category: 'Personal', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80' },
@@ -13,12 +12,11 @@ export default function ChatView() {
     { id: 7, name: 'Bethany Jackson', text: 'Lorem Ipsum is simply dummy text of the printing', time: '1h ago', online: false, category: 'All', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80' }
   ]);
 
-  const [activeThreadId, setActiveThreadId] = useState(3); // Defaulting to John Carlio
+  const [activeThreadId, setActiveThreadId] = useState(3); 
   const [activeTab, setActiveTab] = useState('Personal');
   const [searchQuery, setSearchQuery] = useState('');
   const [typedMessage, setTypedMessage] = useState('');
   
-  // Chat Conversation State keyed by Thread ID
   const [conversations, setConversations] = useState({
     3: [
       { id: 1, type: 'incoming', text: 'Lorem Ipsum is simply', time: null },
@@ -33,7 +31,6 @@ export default function ChatView() {
 
   const chatEndRef = useRef(null);
 
-  // Auto scroll to bottom when messages or active thread updates
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [conversations, activeThreadId]);
@@ -41,7 +38,6 @@ export default function ChatView() {
   const currentThread = threads.find(t => t.id === activeThreadId) || threads[0];
   const currentMessages = conversations[activeThreadId] || [];
 
-  // Filter threads based on category tabs and search inputs
   const filteredThreads = threads.filter(t => {
     const matchesTab = activeTab === 'All' || t.category === activeTab;
     const matchesSearch = t.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -65,17 +61,14 @@ export default function ChatView() {
       [activeThreadId]: [...(prev[activeThreadId] || []), newMessage]
     }));
 
-    // Mock response trigger for UX feel
     setTypedMessage('');
   };
 
   return (
     <div className="flex h-screen bg-[#f8fafc] p-2 sm:p-4 lg:p-6 gap-4 font-sans text-gray-600 antialiased overflow-hidden">
       
-      {/* SIDEBAR: Messages List */}
       <div className={`w-full md:w-[360px] bg-white rounded-3xl border border-gray-100/70 shadow-sm flex flex-col shrink-0 transition-all duration-300 ${activeThreadId && 'hidden md:flex'}`}>
         
-        {/* Header Search Panel */}
         <div className="p-5 pb-3 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-gray-900 tracking-tight">Message</h2>
@@ -96,7 +89,6 @@ export default function ChatView() {
           </div>
         </div>
 
-        {/* Tab Filters */}
         <div className="flex px-5 border-b border-gray-100 text-xs font-semibold text-gray-400">
           {['All', 'Personal', 'Teams'].map(tab => (
             <button
@@ -111,7 +103,6 @@ export default function ChatView() {
           ))}
         </div>
 
-        {/* Dynamic Thread Feed Stack */}
         <div className="flex-1 overflow-y-auto p-3 space-y-1">
           {filteredThreads.map(thread => {
             const isActive = thread.id === activeThreadId;
@@ -144,13 +135,10 @@ export default function ChatView() {
         </div>
       </div>
 
-      {/* WINDOW PANEL: Active Channel view */}
       <div className={`flex-1 bg-white rounded-3xl border border-gray-100/70 shadow-sm flex flex-col overflow-hidden relative ${!activeThreadId && 'hidden md:flex'}`}>
         
-        {/* Profile Chat Toolbar Context */}
         <div className="px-6 py-4 border-b border-gray-100/80 flex items-center justify-between bg-white z-10">
           <div className="flex items-center gap-3">
-            {/* Back button visible only on Mobile screens */}
             <button onClick={() => setActiveThreadId(null)} className="md:hidden p-1.5 hover:bg-slate-100 rounded-lg text-gray-500 mr-1">
               ←
             </button>
@@ -173,7 +161,6 @@ export default function ChatView() {
           </div>
         </div>
 
-        {/* Chat History Flow Container */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-white">
           {currentMessages.map((msg) => {
             const isOutgoing = msg.type === 'outgoing';
@@ -217,7 +204,6 @@ export default function ChatView() {
           <div ref={chatEndRef} />
         </div>
 
-        {/* Message Input Ribbon Block */}
         <form onSubmit={handleSendMessage} className="p-4 border-t border-gray-100 bg-white">
           <div className="flex items-center gap-2 bg-slate-50 border border-slate-100/50 rounded-2xl px-4 py-2">
             <button type="button" className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors">

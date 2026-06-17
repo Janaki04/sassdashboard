@@ -34,6 +34,28 @@
   }
 }
 
+input,
+textarea,
+select {
+  background-color: white;
+}
+
+@layer base {
+  input[type="checkbox"] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+  }
+
+  input[type="checkbox"]:checked {
+    background: #4f46e5;
+    border-color: #4f46e5;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #9ca3af;
@@ -74,6 +96,7 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  background-color: #fff;
 }
 
 h1,

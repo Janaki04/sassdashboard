@@ -1,23 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { Menu } from 'lucide-react'; // Injected to trigger sidebar open state on mobile
 import Sidebar from './components/Sidebar';
-import Header from './components/Header';
 import Dashboard from './pages/Dashboard';
 import InvoiceView from "./pages/InvoiceView";
 import ChatView from "./pages/ChatView";
 import ScheduleView from "./pages/ScheduleView";
 import ScheduleCalendarView from "./pages/ScheduleCalendarView";
+import AnalyticsView from "./pages/AnalyticsView";
+import SettingsScreen from "./pages/SettingsScreen"
 
 import LogInView from './pages/LogInView';
 import SignUpView from './pages/SignUpView';
 
-const AnalyticsView = () => <div className="p-8 text-gray-500 font-medium">Analytics Metrics Control Panels.</div>;
-const NotificationView = () => <div className="p-8 text-gray-500 font-medium">System operational activity feeds.</div>;
-const SettingsView = () => <div className="p-8 text-gray-500 font-medium">User profile security configurations.</div>;
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('dashboard');
-  
   const [authStatus, setAuthStatus] = useState('checking');
 
   useEffect(() => {
@@ -49,10 +47,10 @@ export default function App() {
     schedule: <ScheduleView />,
     calendar: <ScheduleCalendarView />, 
     messages: <ChatView />,
-    notification: <NotificationView />,
-    settings: <SettingsView />,
+    settings: <SettingsScreen />,
   };
 
+  // --- LOADING / INITIAL CHECK GATEWAY ---
   if (authStatus === 'checking') {
     return (
       <div className="h-screen w-screen bg-[#FAFAFB] flex flex-col items-center justify-center gap-3">
@@ -62,6 +60,7 @@ export default function App() {
     );
   }
 
+  // --- PUBLIC SECURITY ROUTES ---
   if (authStatus === 'login') {
     return (
       <LogInView 
@@ -80,8 +79,10 @@ export default function App() {
     );
   }
 
+  // --- SECURED ROOT CORE SHELL (HEADER-LESS) ---
   return (
-    <div className="flex h-screen bg-gray-50/50 overflow-hidden font-sans antialiased animate-in fade-in duration-300">
+    <div className="flex h-screen bg-gray-50/50 overflow-hidden font-sans antialiased animate-in fade-in duration-300 relative">
+      {/* Responsive Left Navigation Side-Column Drawer */}
       <Sidebar 
         isOpen={sidebarOpen} 
         toggleSidebar={() => setSidebarOpen(!sidebarOpen)} 
@@ -90,9 +91,18 @@ export default function App() {
         onLogOut={handleLogOut} 
       />
 
-      <div className="flex-1 flex flex-col overflow-y-auto">
-        <Header toggleSidebar={() => setSidebarOpen(!sidebarOpen)} activeTab={activeTab} />
-        
+      {/* FLOATING HAMBURGER TRIGGER BUTTON */}
+      {/* This renders only on mobile viewports (md:hidden), floating gracefully over your pages */}
+      <button 
+        onClick={() => setSidebarOpen(true)}
+        className="md:hidden fixed top-4 left-4 z-40 bg-white p-2.5 rounded-xl border border-slate-100 shadow-md shadow-slate-200/50 text-slate-600 hover:text-slate-900 active:scale-95 transition-all"
+        aria-label="Open Navigation Menu"
+      >
+        <Menu size={18} className="stroke-[2.5]" />
+      </button>
+
+      {/* Main Content Workspace viewport */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
         <main className="flex-1 bg-[#FAFAFB]">
           {viewRegistry[activeTab] || <Dashboard />}
         </main>

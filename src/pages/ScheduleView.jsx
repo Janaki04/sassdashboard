@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Plus, Calendar as CalendarIcon, Clock, MapPin, Search, Edit2, Trash2, ArrowUpDown, ChevronLeft, ChevronRight, Menu, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, Calendar as CalendarIcon, Clock, MapPin, Search, Edit2, Trash2, ChevronLeft, ChevronRight, X, Camera, ChevronDown } from 'lucide-react';
 
 export default function ScheduleView() {
-  // Main data state representing rows
   const [schedules, setSchedules] = useState([
     { id: 1, date: '12 Dec, 2021', time: '10.15AM', location: 'Office Meeting', type: 'office' },
     { id: 2, date: '10 Dec, 2021', time: '11.20AM', location: 'Home', type: 'home' },
@@ -15,36 +14,31 @@ export default function ScheduleView() {
     { id: 9, date: '02 Dec, 2021', time: '10.15AM', location: 'Friends', type: 'friends' },
     { id: 10, date: '01 Dec, 2021', time: '04.30PM', location: 'Meeting Outside', type: 'outside' }
   ]);
+  
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  // Sidebar mock users data
+  const [newSchedule, setNewSchedule] = useState({
+    title: '',
+    date: '',
+    time: '',
+    location: 'Office Meeting',
+    type: 'office'
+  });
+
   const [people] = useState([
-    { id: 1, name: 'Eddie Lobanovskiy', email: 'lobanovskiy@gmail.com', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80' },
+    { id: 1, name: 'Eddie Lobanovskiy', email: 'laboanovskiy@gmail.com', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80' },
     { id: 2, name: 'Alexey Stave', email: 'alexeyst@gmail.com', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80' },
     { id: 3, name: 'Anton Tkacheve', email: 'tkacheveanton@gmail.com', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80' }
   ]);
 
-  // Interactive States
   const [peopleSearch, setPeopleSearch] = useState('');
   const [selectedIds, setSelectedIds] = useState([]);
-  const [sortAsc, setSortAsc] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Filtered people listing based on sidebar input box
   const filteredPeople = people.filter(p => 
     p.name.toLowerCase().includes(peopleSearch.toLowerCase()) || 
     p.email.toLowerCase().includes(peopleSearch.toLowerCase())
   );
-
-  // Sorting mechanics for schedule list rows
-  const toggleSort = () => {
-    setSortAsc(!sortAsc);
-    const sorted = [...schedules].sort((a, b) => {
-      return sortAsc 
-        ? new Date(a.date) - new Date(b.date)
-        : new Date(b.date) - new Date(a.date);
-    });
-    setSchedules(sorted);
-  };
 
   // Row selection handlers
   const handleSelectAll = (e) => {
@@ -66,73 +60,81 @@ export default function ScheduleView() {
     setSelectedIds(prev => prev.filter(item => item !== id));
   };
 
-  // Badges map reflecting your context interface colors
+  const handleCreateScheduleSubmit = (e) => {
+    e.preventDefault();
+    if (!newSchedule.date || !newSchedule.time) return;
+
+    const dateObj = new Date(newSchedule.date);
+    const formattedDate = dateObj.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+
+    const [hours, minutes] = newSchedule.time.split(':');
+    const ampm = parseInt(hours) >= 12 ? 'PM' : 'AM';
+    const formattedHours = parseInt(hours) % 12 || 12;
+    const formattedTime = `${formattedHours}.${minutes}${ampm}`;
+
+    const newlyCreatedNode = {
+      id: Date.now(),
+      date: formattedDate,
+      time: formattedTime,
+      location: newSchedule.title || newSchedule.location,
+      type: newSchedule.type
+    };
+
+    setSchedules([newlyCreatedNode, ...schedules]);
+    setIsDrawerOpen(false); 
+    setNewSchedule({ title: '', date: '', time: '', location: 'Office Meeting', type: 'office' }); 
+  };
+
   const locationStyles = {
-    office: 'bg-indigo-50 text-indigo-600 border border-indigo-100/40',
-    home: 'bg-purple-50 text-purple-600 border border-purple-100/40',
-    friends: 'bg-amber-50/70 text-amber-600 border border-amber-100/30',
-    outside: 'bg-emerald-50 text-emerald-600 border border-emerald-100/40'
+    office: 'bg-[#eeedff] text-[#5551ff]',
+    home: 'bg-[#eeedff] text-[#5551ff]',
+    friends: 'bg-[#eeedff] text-[#5551ff]',
+    outside: 'bg-[#eeedff] text-[#5551ff]'
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] w-full text-slate-600 antialiased font-sans flex flex-col">
+    <div className="min-h-screen bg-[#FAFAFB] w-full text-slate-600 antialiased font-sans flex flex-col p-4 sm:p-6 lg:p-10 relative overflow-x-hidden">
       
-      {/* Mobile Top Header App Bar */}
-      <header className="lg:hidden bg-white border-b border-slate-100 px-4 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-sm">
-        <div className="flex items-center gap-3">
-          <button onClick={() => setSidebarOpen(true)} className="p-1 text-slate-500 hover:bg-slate-50 rounded-lg">
-            <Menu size={22} />
-          </button>
-          <h1 className="text-lg font-bold text-slate-900 tracking-tight">Schedule List</h1>
-        </div>
-        <button className="flex items-center gap-1.5 bg-indigo-600 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-md shadow-indigo-100">
-          <Plus size={14} />
-          Add New
+      <div className="flex items-center justify-between mb-1 mt-12 md:mt-0">
+        <h1 className="text-2xl font-black text-[#0B0E1F] tracking-tight">
+          Schedule List
+        </h1>
+        <button 
+          onClick={() => setIsDrawerOpen(true)}
+          className="flex items-center gap-2 bg-[#5551ff] hover:bg-[#4440ef] text-white px-5 py-2.5 rounded-xl text-xs font-bold transition-all shadow-md shadow-indigo-100"
+        >
+          <Plus size={15} className="stroke-[3]" />
+          <span>Add New</span>
         </button>
-      </header>
+      </div>
 
-      <div className="flex-1 flex max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 gap-6 overflow-hidden">
+      <div className="flex-1 grid grid-cols-12 gap-8 items-start">
         
-        {/* SIDEBAR CONTAINER: Controlled drawer on mobile, static card column on desktop */}
-        <aside className={`
-          fixed inset-y-0 left-0 w-72 bg-white lg:bg-transparent z-40 p-6 lg:p-0 border-r border-slate-100 lg:border-none shadow-xl lg:shadow-none transition-transform duration-300 transform lg:transform-none lg:static flex flex-col gap-6 shrink-0
-          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-        `}>
-          {/* Mobile drawer header alignment */}
-          <div className="flex lg:hidden items-center justify-between border-b border-slate-50 pb-3">
-            <span className="font-bold text-slate-900">Workspace Menu</span>
-            <button onClick={() => setSidebarOpen(false)} className="p-1.5 bg-slate-50 rounded-lg text-slate-500">
-              <X size={18} />
-            </button>
-          </div>
-
-          <button className="w-full flex items-center justify-center gap-2 bg-[#5551ff] hover:bg-indigo-700 text-white py-3 px-4 rounded-xl text-sm font-bold transition-all shadow-lg shadow-indigo-100/60 shrink-0">
-            <Plus size={16} />
-            <span>Create Schedule</span>
-          </button>
-
-          {/* Miniature Calendar UI Card Box Widget */}
-          <div className="bg-white rounded-2xl border border-slate-100 p-4 shadow-sm space-y-4">
+        <aside className="col-span-12 lg:col-span-4 xl:col-span-3 bg-white border border-slate-100/60 rounded-3xl p-6 space-y-6 shadow-xs">
+          <div className="space-y-4">
             <div className="flex items-center justify-between px-1">
-              <h3 className="text-xs font-bold text-slate-800">December 2, 2021</h3>
-              <div className="flex items-center gap-1 text-slate-300">
-                <button className="p-1 hover:text-slate-600 transition-colors"><ChevronLeft size={16} /></button>
-                <button className="p-1 hover:text-slate-600 transition-colors"><ChevronRight size={16} /></button>
+              <h3 className="text-xs font-black text-slate-800">December 2, 2021</h3>
+              <div className="flex items-center gap-2 text-slate-300">
+                <button className="p-0.5 hover:text-slate-600 transition-colors"><ChevronLeft size={16} className="stroke-[2.5]" /></button>
+                <button className="p-0.5 hover:text-slate-600 transition-colors"><ChevronRight size={16} className="stroke-[2.5]" /></button>
               </div>
             </div>
             
-            <div className="grid grid-cols-7 gap-y-2.5 text-center text-[11px] font-medium text-slate-400">
+            <div className="grid grid-cols-7 gap-y-2 text-center text-[10px] font-bold text-slate-400">
               {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
-                <div key={i} className="font-bold text-slate-400 text-[10px]">{d}</div>
+                <div key={i} className="text-slate-400/80">{d}</div>
+              ))}
+              {Array.from({ length: 2 }, (_, i) => (
+                <div key={`prev-${i}`} className="text-slate-300/60 font-normal">{(29 + i)}</div>
               ))}
               {Array.from({ length: 31 }, (_, i) => {
                 const day = i + 1;
-                const isSelected = day === 3; // Mocking specific highlight choice from snapshot
+                const isSelected = day === 3;
                 return (
                   <div key={i} className="relative flex justify-center items-center h-6">
-                    <span className={`w-6 h-6 flex items-center justify-center rounded-lg text-xs transition-all ${
+                    <span className={`w-6 h-6 flex items-center justify-center rounded-lg text-xs font-bold transition-all ${
                       isSelected 
-                        ? 'bg-[#5551ff] text-white font-bold shadow-md shadow-indigo-100' 
+                        ? 'bg-[#5551ff] text-white shadow-xs' 
                         : 'text-slate-700 hover:bg-slate-50 cursor-pointer'
                     }`}>
                       {day}
@@ -140,158 +142,219 @@ export default function ScheduleView() {
                   </div>
                 );
               })}
+              {Array.from({ length: 2 }, (_, i) => (
+                <div key={`next-${i}`} className="text-slate-300/60 font-normal">{(i + 1)}</div>
+              ))}
             </div>
           </div>
 
-          {/* People Filter Roster Module Card */}
-          <div className="bg-white rounded-2xl border border-slate-100 p-4 shadow-sm flex-1 flex flex-col min-h-[280px]">
-            <h3 className="text-xs font-bold text-slate-800 mb-3 px-1">People</h3>
+          <hr className="border-slate-100" />
+
+          <div className="space-y-4">
+            <h3 className="text-xs font-black text-slate-800 px-1">People</h3>
             
-            <div className="relative mb-4">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={14} />
+            <div className="relative">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" size={13} />
               <input 
                 type="text"
                 placeholder="Search for People"
                 value={peopleSearch}
                 onChange={e => setPeopleSearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-2 bg-slate-50/60 border border-transparent rounded-xl text-xs font-medium text-slate-700 focus:outline-none focus:bg-white focus:border-slate-200/80 transition-all"
+                className="w-full pl-9 pr-4 py-2.5 bg-[#F8F9FB] border border-transparent rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:bg-white focus:border-slate-100 transition-all placeholder:text-slate-400/80"
               />
             </div>
 
-            <div className="flex-1 overflow-y-auto space-y-3.5 pr-1">
+            <div className="space-y-4 max-h-[180px] overflow-y-auto pr-1">
               {filteredPeople.map(person => (
-                <div key={person.id} className="flex items-center gap-3 group">
-                  <img src={person.avatar} alt="" className="w-8 h-8 rounded-full object-cover border border-slate-100 shadow-xs" />
+                <div key={person.id} className="flex items-center gap-3">
+                  <img src={person.avatar} alt="" className="w-8 h-8 rounded-full object-cover border border-slate-100 shadow-2xs" />
                   <div className="min-w-0 flex-1">
-                    <h4 className="text-xs font-bold text-slate-800 truncate leading-tight">{person.name}</h4>
-                    <p className="text-[10px] text-slate-400 truncate mt-0.5">{person.email}</p>
+                    <h4 className="text-xs font-black text-slate-800 truncate leading-tight">{person.name}</h4>
+                    <p className="text-[10px] text-slate-400 truncate mt-0.5 font-medium">{person.email}</p>
                   </div>
                 </div>
               ))}
-              {filteredPeople.length === 0 && (
-                <div className="text-center py-6 text-[11px] text-slate-400 font-medium">No records found.</div>
-              )}
             </div>
 
-            <button className="w-full mt-4 py-2.5 border border-slate-100 rounded-xl text-xs font-bold text-[#5551ff] bg-white hover:bg-slate-50/80 transition-all text-center">
+            <button className="w-full mt-2 py-3 border border-slate-100 rounded-xl text-xs font-black text-[#5551ff] bg-white hover:bg-slate-50/50 transition-all text-center">
               My Schedule
             </button>
           </div>
         </aside>
 
-        {/* BACKDROP: Modal backdrop mask displayed only during mobile interactive active drawer views */}
-        {sidebarOpen && (
-          <div onClick={() => setSidebarOpen(false)} className="fixed inset-0 bg-slate-900/20 backdrop-blur-xs z-30 lg:hidden" />
-        )}
-
-        {/* WORKSPACE CONTENT AREA: Schedule Dashboard Data Rows List */}
-        <main className="flex-1 flex flex-col min-w-0">
+        <main className="col-span-12 lg:col-span-8 xl:col-span-9 flex flex-col space-y-3.5 overflow-x-auto">
           
-          {/* Top Panel Desktop Action Title Row */}
-          <div className="hidden lg:flex items-center justify-between mb-6 shrink-0">
-            <h2 className="text-xl font-bold text-slate-900 tracking-tight">Schedule List</h2>
-            <button className="flex items-center gap-2 bg-[#5551ff] hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-all shadow-md shadow-indigo-100">
-              <Plus size={16} />
-              <span>Add New</span>
+          <div className="grid grid-cols-12 px-6 text-[10px] font-black text-slate-400 uppercase tracking-widest items-center pb-2 select-none min-w-[640px]">
+            <div className="col-span-1 flex items-center">
+              <input 
+                type="checkbox"
+                checked={schedules.length > 0 && selectedIds.length === schedules.length}
+                onChange={handleSelectAll}
+                className="w-4 h-4 rounded border-slate-300 text-[#5551ff] focus:ring-[#5551ff]/20 transition-all bg-white cursor-pointer"
+              />
+            </div>
+            <div className="col-span-3 flex items-center gap-1 cursor-pointer">Date <span className="text-[8px]">▼</span></div>
+            <div className="col-span-3 flex items-center gap-1 cursor-pointer">Time <span className="text-[8px]">▼</span></div>
+            <div className="col-span-3 flex items-center gap-1 cursor-pointer">Location <span className="text-[8px]">▼</span></div>
+            <div className="col-span-2"></div>
+          </div>
+
+          <div className="space-y-3 min-w-[640px]">
+            {schedules.map((row) => {
+              const isChecked = selectedIds.includes(row.id);
+              return (
+                <div 
+                  key={row.id} 
+                  className={`grid grid-cols-12 px-6 py-3.5 bg-white rounded-2xl border items-center transition-all duration-150 ${
+                    isChecked ? 'border-[#5551ff]/30 bg-indigo-50/5' : 'border-slate-100/80'
+                  }`}
+                >
+                  <div className="col-span-1 flex items-center">
+                    <input 
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => handleSelectRow(row.id)}
+                      className="w-4 h-4 rounded border-slate-200 text-[#5551ff] focus:ring-[#5551ff]/20 transition-all cursor-pointer"
+                    />
+                  </div>
+
+                  <div className="col-span-3 flex items-center gap-3 text-xs font-extrabold text-[#111625]">
+                    <CalendarIcon size={14} className="text-[#5551ff] shrink-0" />
+                    <span>{row.date}</span>
+                  </div>
+
+                  <div className="col-span-3 flex items-center gap-3 text-xs font-bold text-slate-700">
+                    <Clock size={14} className="text-slate-400 shrink-0" />
+                    <span>{row.time}</span>
+                  </div>
+
+                  <div className="col-span-3">
+                    <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-extrabold tracking-wide min-w-[140px] ${locationStyles[row.type]}`}>
+                      <MapPin size={12} className="shrink-0 stroke-[2.5]" />
+                      <span>{row.location}</span>
+                    </div>
+                  </div>
+
+                  <div className="col-span-2 flex items-center justify-end gap-3">
+                    <button className="p-2 bg-[#FFFBF0] hover:bg-[#FFF4D4] text-[#FFC42D] rounded-full transition-all">
+                      <Edit2 size={13} className="stroke-[2.5]" />
+                    </button>
+                    <button onClick={() => deleteRow(row.id)} className="p-2 bg-[#FFF2F4] hover:bg-[#FFE3E7] text-[#FF4C61] rounded-full transition-all">
+                      <Trash2 size={13} className="stroke-[2.5]" />
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+
+            {schedules.length === 0 && (
+              <div className="text-center py-16 bg-white border border-dashed border-slate-200 rounded-2xl text-slate-400 font-bold text-xs uppercase tracking-wider">
+                No active records.
+              </div>
+            )}
+          </div>
+        </main>
+      </div>
+
+      <div 
+        className={`fixed inset-0 bg-slate-900/20 backdrop-blur-3xs z-50 transition-opacity duration-300 ${
+          isDrawerOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={() => setIsDrawerOpen(false)}
+      >
+        <div 
+          className={`fixed right-0 top-0 bottom-0 bg-white w-full max-w-[460px] h-full shadow-2xl p-8 overflow-y-auto transition-transform duration-300 ease-out transform ${
+            isDrawerOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-xl font-extrabold text-[#0B0E1F] tracking-tight">Add Schedule</h2>
+            <button 
+              onClick={() => setIsDrawerOpen(false)} 
+              className="w-8 h-8 flex items-center justify-center rounded-full bg-[#FFF2F4] text-[#FF4C61] hover:bg-[#FFE3E7] transition-colors"
+            >
+              <X size={15} className="stroke-[2.5]" />
             </button>
           </div>
 
-          {/* Table Matrix Component Frame */}
-          <div className="flex-1 flex flex-col bg-transparent rounded-2xl overflow-hidden">
+          <form onSubmit={handleCreateScheduleSubmit} className="space-y-6">
             
-            {/* Header Columns Configuration Panel Row */}
-            <div className="grid grid-cols-12 px-6 py-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider items-center gap-4 border-b border-transparent select-none shrink-0">
-              <div className="col-span-1 flex items-center">
-                <input 
-                  type="checkbox"
-                  checked={schedules.length > 0 && selectedIds.length === schedules.length}
-                  onChange={handleSelectAll}
-                  className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500/30 transition-all bg-white cursor-pointer"
-                />
-              </div>
-              <div onClick={toggleSort} className="col-span-3 flex items-center gap-1 cursor-pointer hover:text-slate-600 transition-colors">
-                Date <ArrowUpDown size={12} className="text-slate-400" />
-              </div>
-              <div className="col-span-3 flex items-center gap-1">
-                Time <ArrowUpDown size={12} className="text-slate-300" />
-              </div>
-              <div className="col-span-3 flex items-center gap-1">
-                Location <ArrowUpDown size={12} className="text-slate-300" />
-              </div>
-              <div className="col-span-2 text-right"></div>
-            </div>
-
-            {/* Dynamic Data Content Rows List Stack */}
-            <div className="flex-1 overflow-y-auto space-y-3.5 pr-1 py-1">
-              {schedules.map((row) => {
-                const isChecked = selectedIds.includes(row.id);
-                return (
-                  <div 
-                    key={row.id} 
-                    className={`grid grid-cols-12 px-6 py-4 bg-white rounded-2xl border items-center gap-4 transition-all duration-200 ${
-                      isChecked 
-                        ? 'border-indigo-200 shadow-xs bg-indigo-50/10' 
-                        : 'border-slate-100/70 hover:border-slate-200/80 hover:shadow-xs shadow-200'
-                    }`}
-                  >
-                    {/* Checkbox item */}
-                    <div className="col-span-1 flex items-center">
-                      <input 
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={() => handleSelectRow(row.id)}
-                        className="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500/30 transition-all cursor-pointer"
-                      />
-                    </div>
-
-                    {/* Date Item field */}
-                    <div className="col-span-11 md:col-span-3 flex items-center gap-2.5 text-xs font-bold text-slate-800">
-                      <CalendarIcon size={14} className="text-indigo-500 shrink-0" />
-                      <span>{row.date}</span>
-                    </div>
-
-                    {/* Time Item field */}
-                    <div className="col-span-6 md:col-span-3 flex items-center gap-2.5 text-xs font-medium text-slate-700">
-                      <Clock size={14} className="text-slate-400 shrink-0" />
-                      <span>{row.time}</span>
-                    </div>
-
-                    {/* Location Badge container row field */}
-                    <div className="col-span-6 md:col-span-3">
-                      <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold leading-none ${locationStyles[row.type] || 'bg-slate-50 text-slate-600'}`}>
-                        <MapPin size={12} className="shrink-0 opacity-80" />
-                        <span>{row.location}</span>
-                      </div>
-                    </div>
-
-                    {/* Row Item Action Elements Panel Tool buttons */}
-                    <div className="col-span-12 md:col-span-2 flex items-center justify-end gap-2.5 mt-2 md:mt-0 pt-3 md:pt-0 border-t border-dashed border-slate-50 md:border-none">
-                      <button className="p-2 bg-amber-50/60 hover:bg-amber-100/80 text-amber-500 hover:text-amber-600 rounded-xl transition-all shadow-3xs border border-amber-100/20">
-                        <Edit2 size={13} fill="currentColor" className="opacity-90" />
-                      </button>
-                      <button 
-                        onClick={() => deleteRow(row.id)}
-                        className="p-2 bg-rose-50 hover:bg-rose-100/80 text-rose-500 hover:text-rose-600 rounded-xl transition-all shadow-3xs border border-rose-100/20"
-                      >
-                        <Trash2 size={13} fill="currentColor" className="opacity-90" />
-                      </button>
-                    </div>
-
-                  </div>
-                );
-              })}
-
-              {schedules.length === 0 && (
-                <div className="text-center py-16 bg-white border border-dashed border-slate-200 rounded-2xl text-slate-400 font-medium text-sm">
-                  No upcoming events or schedules configured inside the list tracker.
+            <div className="flex justify-center py-2 mb-2">
+              <div className="w-28 h-28 bg-[#F4F5F7] rounded-full flex items-center justify-center relative border border-slate-100">
+                <Camera size={26} className="text-[#475569]" />
+                <div className="absolute bottom-1 right-1 p-1.5 bg-[#5551ff] text-white rounded-full shadow-xs">
+                  <Plus size={12} className="stroke-[3]" />
                 </div>
-              )}
+              </div>
             </div>
 
-          </div>
-        </main>
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-700">Schedule Title / Target Name</label>
+              <input 
+                type="text"
+                placeholder="John"
+                value={newSchedule.title}
+                onChange={e => setNewSchedule({...newSchedule, title: e.target.value})}
+                className="w-full px-4 py-3.5 bg-[#F4F5F7] border border-transparent rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:bg-white focus:border-slate-200 transition-all placeholder:text-slate-400"
+              />
+            </div>
 
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-700">Event Date</label>
+              <input 
+                type="date"
+                required
+                value={newSchedule.date}
+                onChange={e => setNewSchedule({...newSchedule, date: e.target.value})}
+                className="w-full px-4 py-3.5 bg-[#F4F5F7] border border-transparent rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:bg-white focus:border-slate-200 transition-all cursor-pointer"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-700">Event Time</label>
+              <input 
+                type="time"
+                required
+                value={newSchedule.time}
+                onChange={e => setNewSchedule({...newSchedule, time: e.target.value})}
+                className="w-full px-4 py-3.5 bg-[#F4F5F7] border border-transparent rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:bg-white focus:border-slate-200 transition-all cursor-pointer"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-700">Location Type Select</label>
+              <div className="relative">
+                <select
+                  value={newSchedule.type}
+                  onChange={e => {
+                    const locations = { office: 'Office Meeting', home: 'Home', friends: 'Friends Zone', outside: 'Meeting Outside' };
+                    setNewSchedule({...newSchedule, type: e.target.value, location: locations[e.target.value]});
+                  }}
+                  className="w-full px-4 py-3.5 bg-[#F4F5F7] border border-transparent rounded-xl text-xs font-bold text-slate-800 appearance-none focus:outline-none focus:bg-white focus:border-slate-200 transition-all cursor-pointer"
+                >
+                  <option value="office">Office Meeting</option>
+                  <option value="home">Home</option>
+                  <option value="friends">Friends Zone</option>
+                  <option value="outside">Meeting Outside</option>
+                </select>
+                <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+              </div>
+            </div>
+
+            <div className="pt-6">
+              <button 
+                type="submit"
+                className="w-full py-4 bg-[#5551ff] hover:bg-[#4440ef] text-white rounded-xl text-xs font-black tracking-wide transition-all shadow-lg shadow-indigo-100"
+              >
+                Add Schedule
+              </button>
+            </div>
+
+          </form>
+        </div>
       </div>
+
     </div>
   );
 }

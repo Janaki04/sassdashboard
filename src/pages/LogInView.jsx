@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Sparkles } from 'lucide-react';
+import login from "../assets/Illustration.png"
+import logo from "../assets/Subtract.png";
+
 
 export default function LogInView({ onNavigateToSignup, onAuthSuccess }) {
-  const [email, setEmail] = useState('example@gmail.com');
-  const [password, setPassword] = useState('••••••••');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -12,22 +15,13 @@ export default function LogInView({ onNavigateToSignup, onAuthSuccess }) {
     e.preventDefault();
     setErrorMsg('');
 
-    const cachedProfileRaw = localStorage.getItem('userProfile');
-    const userProfile = cachedProfileRaw ? JSON.parse(cachedProfileRaw) : null;
-
-    if (userProfile) {
-      if (userProfile.email === email && userProfile.password === password) {
+      if (email!=="" &&  password!=="") {
         localStorage.setItem('isLoggedIn', 'true');
         onAuthSuccess();
         return;
-      }
-    }
-
-    if (email === 'example@gmail.com') {
-      localStorage.setItem('isLoggedIn', 'true');
-      onAuthSuccess();
+      
     } else {
-      setErrorMsg('Invalid combination match found inside authentication records profiles.');
+      setErrorMsg('Need cerdentials for login');
     }
   };
 
@@ -38,8 +32,8 @@ export default function LogInView({ onNavigateToSignup, onAuthSuccess }) {
         <div className="max-w-sm w-full mx-auto space-y-7">
           
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-4">
-            <div className="w-14 h-14 bg-[#5551ff] text-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-100">
-              <Sparkles size={24} fill="currentColor" />
+            <div className="w-14 h-14  text-white rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-100">
+              <img src={logo}/>
             </div>
             <h2 className="text-2xl font-black text-slate-900 tracking-tight">Log in</h2>
           </div>
@@ -102,8 +96,9 @@ export default function LogInView({ onNavigateToSignup, onAuthSuccess }) {
                   id="rememberCheck"
                   checked={rememberMe}
                   onChange={e => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 rounded border-slate-300 text-[#5551ff] focus:ring-[#5551ff]/20 bg-slate-50 cursor-pointer"
+                  className="w-4 h-4  rounded border-slate bg-[#fff] text-[#5551ff] focus:ring-[#5551ff]/20 bg-slate-50 cursor-pointer"
                 />
+                
                 <label htmlFor="rememberCheck" className="font-bold text-slate-400 cursor-pointer">Remember me</label>
               </div>
               <a href="#reset" className="text-[#5551ff] font-bold hover:underline">Reset Password?</a>
@@ -126,7 +121,7 @@ export default function LogInView({ onNavigateToSignup, onAuthSuccess }) {
         <div className="max-w-xl w-full text-center relative">
           <div className="relative inline-block">
             <img 
-              src="https://img.freepik.com/free-vector/flat-design-isometric-working-day-concept-illustrated_52683-61118.jpg?w=1000" 
+              src={login} 
               alt="Alternative Vector Graphic Layout Visual Display Grid Mockup" 
               className="w-full h-auto max-h-[500px] object-contain rounded-3xl mix-blend-multiply opacity-90 scale-x-[-1]"
             />
