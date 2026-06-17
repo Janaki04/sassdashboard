@@ -23,7 +23,8 @@ export default function Dashboard() {
 
   const topProducts = [
     { name: "NIKE Shoes Black Pattern", price: "$87", rating: 5, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=150&q=80" },
-    { name: "iPhone 12", price: "$987", rating: 5, img: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=150&q=80" }
+    { name: "iPhone 12", price: "$987", rating: 5, img: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=150&q=80" },
+    { name: "NIKE Shoes Black Pattern", price: "$87", rating: 5, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=150&q=80" },
   ];
 
   const filteredOrders = orders.filter(order => 
@@ -165,7 +166,7 @@ export default function Dashboard() {
         </div>
 
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col justify-between">
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center mb-2">
             <h3 className="font-bold text-gray-800">Top Selling Products</h3>
             <span className="text-gray-400 cursor-pointer">•••</span>
           </div>
