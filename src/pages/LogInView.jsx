@@ -61,7 +61,7 @@ export default function LogInView({ onNavigateToSignup, onAuthSuccess }) {
             )}
 
             <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-800">Email Address</label>
+              <label className="flex text-xs font-bold text-slate-800">Email Address</label>
               <input 
                 type="email" 
                 value={email}
@@ -72,7 +72,7 @@ export default function LogInView({ onNavigateToSignup, onAuthSuccess }) {
             </div>
 
             <div className="space-y-1.5 relative">
-              <label className="text-xs font-bold text-slate-800 block">Password</label>
+              <label className="flex text-xs font-bold text-slate-800 block">Password</label>
               <input 
                 type={showPassword ? 'text' : 'password'} 
                 value={password}
