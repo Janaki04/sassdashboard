@@ -1,33 +1,58 @@
 import React, { useState } from 'react';
-import { ChevronLeft, Camera, Briefcase, DollarSign, FileText, CheckSquare, Square } from 'lucide-react';
+import { ChevronLeft, Camera, Briefcase, CheckSquare, Square } from 'lucide-react';
 import { toast } from 'react-toastify';
 
 export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
-  const [productName, setProductName] = useState('MacBook Pro 2021 14"');
-  const [brand, setBrand] = useState('Apple');
-  const [price, setPrice] = useState('1200');
+  const [productName, setProductName] = useState('');
+  const [brand, setBrand] = useState('Apple'); 
+  const [price, setPrice] = useState('');
   const [isNegotiable, setIsNegotiable] = useState(true);
   const [description, setDescription] = useState(
     'This the New creation Of apple. This the New creation Of apple This the New creation Of apple This the New creation Of apple.'
   );
 
-    const handleschedule=()=>{
-      toast.success("Event created sucessfully")
-    }
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!productName.trim()) return;
+    
+    const trimmedName = productName.trim();
+    const trimmedDesc = description.trim();
+
+    if (!trimmedName) {
+      toast.error("Product name is required.");
+      return;
+    }
+
+    if (!brand) {
+      toast.error("Please select a valid brand.");
+      return;
+    }
+
+    if (!price || parseFloat(price) <= 0) {
+      toast.error("Please enter a valid price greater than 0.");
+      return;
+    }
+
+    if (!trimmedDesc) {
+      toast.error("Please provide a product description.");
+      return;
+    }
 
     onSaveProduct({
-      name: productName,
+      name: trimmedName,
       brand,
-      price: `$${price}`,
+      price: `$${parseFloat(price).toFixed(2)}`,
       order: '0 Piece',
       sales: '$0',
-      icon: '💻',
+      icon: brand === 'Apple' ? '💻' : brand === 'Samsung' ? '📱' : '🎧',
       isTopThree: false
     });
+
+    setProductName('');
+    setBrand('Apple');
+    setPrice('');
+    setIsNegotiable(true);
+    setDescription('');
+    
     onClose();
   };
 
@@ -35,7 +60,7 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
     <>
       <div 
         onClick={onClose}
-        className={`fixed inset-0 bg-slate-900/30 backdrop-blur-[1px] z-50 transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-slate-900/30 backdrop-blur-[1px] font-nunito z-50 transition-opacity duration-300 ${
           isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       />
@@ -48,6 +73,7 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
           
           <div className="flex items-center gap-4 pt-2">
             <button 
+              type="button"
               onClick={onClose}
               className="p-1.5 hover:bg-slate-50 border border-slate-100 rounded-lg text-slate-400 hover:text-slate-700 transition-colors"
             >
@@ -66,9 +92,10 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
           <form id="drawer-product-form" onSubmit={handleSubmit} className="space-y-4">
             
             <div className="space-y-1.5">
-              <label className="flex text-[11px] font-bold text-slate-500">Product Name</label>
+              <label className="flex text-[11px] font-bold text-slate-500">Product Name *</label>
               <input 
                 type="text" 
+                placeholder="e.g. MacBook Pro"
                 value={productName}
                 onChange={(e) => setProductName(e.target.value)}
                 className="w-full px-3.5 py-2.5 bg-slate-50 border border-transparent rounded-xl text-xs font-semibold text-slate-700 placeholder-slate-400 focus:outline-none focus:bg-white focus:border-slate-100 transition-all"
@@ -76,7 +103,7 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
             </div>
 
             <div className="space-y-1.5">
-              <label className="flex text-[11px] font-bold text-slate-500">Brand</label>
+              <label className="flex text-[11px] font-bold text-slate-500">Brand *</label>
               <div className="relative">
                 <select 
                   value={brand}
@@ -94,12 +121,14 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
             </div>
 
             <div className="space-y-1.5">
-              <label className="flex text-[11px] font-bold text-slate-500">Price</label>
+              <label className="flex text-[11px] font-bold text-slate-500">Price *</label>
               <div className="flex items-center gap-4">
                 <div className="relative flex-1">
                   <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs">$</span>
                   <input 
                     type="number" 
+                    step="0.01"
+                    placeholder="0.00"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                     className="w-full pl-7 pr-3.5 py-2.5 bg-slate-50 border border-transparent rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:bg-white focus:border-slate-100 transition-all"
@@ -121,7 +150,7 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
             </div>
 
             <div className="space-y-1.5">
-              <label className="flex text-[11px] font-bold text-slate-500">Descriptions</label>
+              <label className="flex text-[11px] font-bold text-slate-500">Descriptions *</label>
               <textarea 
                 rows={4}
                 value={description}
@@ -135,7 +164,6 @@ export default function AddProductDrawer({ isOpen, onClose, onSaveProduct }) {
 
         <div className="p-4 border-t border-slate-50 bg-white">
           <button 
-          onClick={handleschedule}
             type="submit"
             form="drawer-product-form"
             className="w-full bg-[#5551ff] hover:bg-[#4440ef] text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-indigo-100"

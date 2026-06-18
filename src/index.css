@@ -105,6 +105,20 @@ h2 {
   color: var(--text-h);
 }
 
+html.lenis, 
+html.lenis body {
+  height: auto !important;
+  overflow-y: auto !important;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
 h1 {
   font-size: 56px;
   letter-spacing: -1.68px;

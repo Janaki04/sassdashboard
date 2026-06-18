@@ -24,7 +24,7 @@ function CreateEventModal({ isOpen, onClose, onSave }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-[2px] z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-[2px] font-nunito z-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-[28px] w-full max-w-lg shadow-2xl p-6 relative border border-slate-100 animate-in fade-in zoom-in-95 duration-150">
         
         <button 

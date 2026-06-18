@@ -33,7 +33,7 @@ export default function SignUpView({ onNavigateToLogin, onAuthSuccess }) {
   };
 
   return (
-    <div className="w-full min-h-screen bg-white flex flex-col lg:flex-row font-sans overflow-hidden animate-in fade-in slide-in-from-right-4 duration-300">
+    <div className="w-full min-h-screen bg-white flex flex-col lg:flex-row font-nunito overflow-hidden animate-in fade-in slide-in-from-right-4 duration-300">
       
       <div className="w-full lg:w-[420px] shrink-0 p-8 sm:p-12 xl:p-16 flex flex-col justify-center bg-white z-10 relative">
         <div className="max-w-sm w-full mx-auto space-y-7">

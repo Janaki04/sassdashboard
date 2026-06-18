@@ -3,6 +3,7 @@ import {
   Plus, ChevronDown, Award, MoreHorizontal, ShoppingCart, 
   Box, TrendingUp, Mail, Phone, MapPin, Edit2, Trash2, X, Camera 
 } from 'lucide-react';
+import { toast } from 'react-toastify';
 import AddProductDrawer from '../components/AddProductDrawer';
 
 export default function AnalyticsView() {
@@ -32,13 +33,13 @@ export default function AnalyticsView() {
   const [customers, setCustomers] = useState([
     { name: 'John Deo', email: 'johndoe2211@gmail.com', phone: '+33757005467', gender: 'Male', role: 'UI/UX Designer', address: '2239 Hog Camp Road Schaumburg', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80' },
     { name: 'Shelby Goode', email: 'shelbygoode481@gmail.com', phone: '+33757005467', gender: 'Female', role: 'Frontend Engineer', address: '104 Vista Del Mar, California', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80' },
-    { name: 'Robert Bacins', email: 'robertbacins4182@com', phone: '+33757005467', gender: 'Male', role: 'Product Strategist', address: '494 Walnut Street, New York', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=80' },
-    { name: 'John Carilo', email: 'johncarilo182@.com', phone: '+33757805467', gender: 'Male', role: 'Data Analyst', address: '772 Spruce Ave, Illinois', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80' },
-    { name: 'Adriene Watson', email: 'adrienewatson82@.com', phone: '+83757305467', gender: 'Female', role: 'QA Lead', address: '198 Fox Run Lane, Texas', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80' },
-    { name: 'Jhon Deo', email: 'jhondeo24823@.com', phone: '+634757005466', gender: 'Male', role: 'Solutions Architect', address: '883 Boundary St, Florida', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80' },
-    { name: 'Mark Ruffalo', email: 'markruffalo3735@.com', phone: '+33757005467', gender: 'Male', role: 'DevOps Engineer', address: '611 Rock Creek Rd, Ohio', avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=120&q=80' },
-    { name: 'Bethany Jackson', email: 'bethanyjackson5@.com', phone: '+33757005467', gender: 'Female', role: 'Creative Director', address: '332 Pine Needle Dr, Georgia', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80' },
-    { name: 'Christine Huston', email: 'christineuston4@.com', phone: '+33757005467', gender: 'Male', role: 'HR Operations', address: '202 Oak Ridge Dr, Virginia', avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=120&q=80' },
+    { name: 'Robert Bacins', email: 'robertbacins4182@gmail.com', phone: '+33757005467', gender: 'Male', role: 'Product Strategist', address: '494 Walnut Street, New York', avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=120&q=80' },
+    { name: 'John Carilo', email: 'johncarilo182@gmail.com', phone: '+33757805467', gender: 'Male', role: 'Data Analyst', address: '772 Spruce Ave, Illinois', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80' },
+    { name: 'Adriene Watson', email: 'adrienewatson82@gmail.com', phone: '+83757305467', gender: 'Female', role: 'QA Lead', address: '198 Fox Run Lane, Texas', avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&q=80' },
+    { name: 'Jhon Deo', email: 'jhondeo24823@gmail.com', phone: '+634757005466', gender: 'Male', role: 'Solutions Architect', address: '883 Boundary St, Florida', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80' },
+    { name: 'Mark Ruffalo', email: 'markruffalo3735@gmail.com', phone: '+33757005467', gender: 'Male', role: 'DevOps Engineer', address: '611 Rock Creek Rd, Ohio', avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=120&q=80' },
+    { name: 'Bethany Jackson', email: 'bethanyjackson5@gmail.com', phone: '+33757005467', gender: 'Female', role: 'Creative Director', address: '332 Pine Needle Dr, Georgia', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80' },
+    { name: 'Christine Huston', email: 'christineuston4@gmail.com', phone: '+33757005467', gender: 'Male', role: 'HR Operations', address: '202 Oak Ridge Dr, Virginia', avatar: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=120&q=80' },
     { name: 'Anne Jacob', email: 'annejacob2@ummoh.com', phone: '+33757005467', gender: 'Male', role: 'Business Developer', address: '455 Maple Wood Court, Oregon', avatar: 'https://images.unsplash.com/photo-1489980508314-941910ded1f4?auto=format&fit=crop&w=120&q=80' },
   ]);
 
@@ -54,16 +55,48 @@ export default function AnalyticsView() {
 
   const handleAppendProduct = (newProduct) => {
     setTopProducts((prev) => [...prev, { ...newProduct, sn: prev.length + 1 }]);
+    toast.success("Product successfully tracked and appended.");
+  };
+
+  const handleDeleteCustomer = (idxToDelete) => {
+    setCustomers(prev => prev.filter((_, idx) => idx !== idxToDelete));
+    setActiveMenuIdx(null);
+    if (selectedCustomer === idxToDelete) {
+      setSelectedCustomer(0);
+    } else if (selectedCustomer > idxToDelete) {
+      setSelectedCustomer(prev => prev - 1);
+    }
+    toast.info("Customer registration record removed.");
   };
 
   const handleAddCustomerSubmit = (e) => {
     e.preventDefault();
-    if (!newCustomer.firstName || !newCustomer.email) return;
+    
+    const trimmedFirstName = newCustomer.firstName.trim();
+    const trimmedLastName = newCustomer.lastName.trim();
+    const trimmedEmail = newCustomer.email.trim();
+
+    // Explicit Form String Field Valuations
+    if (!trimmedFirstName) {
+      toast.error("First Name field input is required.");
+      return;
+    }
+
+    if (!trimmedLastName) {
+      toast.error("Last Name field input is required.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      toast.error("Please enter a valid structure email address.");
+      return;
+    }
 
     const formattedCustomer = {
-      name: `${newCustomer.firstName} ${newCustomer.lastName}`,
-      email: newCustomer.email,
-      phone: newCustomer.phone || '+33757005467',
+      name: `${trimmedFirstName} ${trimmedLastName}`,
+      email: trimmedEmail,
+      phone: newCustomer.phone.trim() || '+33757005467',
       gender: newCustomer.gender,
       role: 'New Client Member',
       address: 'Not Provided Yet Office Block',
@@ -74,29 +107,22 @@ export default function AnalyticsView() {
     setIsCustomerModalOpen(false);
     setSelectedCustomer(0); 
     setNewCustomer({ firstName: '', lastName: '', email: '', phone: '', gender: 'Male' });
+    toast.success("Customer registry compiled successfully!");
   };
 
   const currentCustomer = customers[selectedCustomer] || customers[0];
 
   return (
-    <div className="p-4 sm:p-6 lg:p-10 space-y-8 w-full min-h-screen bg-[#F8F9FB] text-slate-600 font-sans antialiased relative overflow-x-hidden">
+    <div className="p-4 sm:p-6 lg:p-10 space-y-8 w-full min-h-screen  text-slate-600 font-nunito antialiased relative overflow-x-hidden">
       
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-12 md:mt-0">
-        <h1 className="text-2xl font-black text-[#0B0E1F] tracking-tight">
+        <h1 className="text-2xl font-black text-[#0B0E1F] tracking-tight dark:text-white">
           {activeSegment === 'Product' ? 'Product Analytics' : 'Customer List'}
         </h1>
         
         <div className="flex items-center gap-3">
           {activeSegment === 'Product' ? (
             <>
-              <div className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl border border-slate-100 shadow-3xs text-xs font-bold text-slate-600 cursor-pointer">
-                <span>10-06-2021</span>
-                <ChevronDown size={14} className="text-slate-400" />
-              </div>
-              <div className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl border border-slate-100 shadow-3xs text-xs font-bold text-slate-600 cursor-pointer">
-                <span>10-10-2021</span>
-                <ChevronDown size={14} className="text-slate-400" />
-              </div>
               <button 
                 onClick={() => setIsDrawerOpen(true)}
                 className="flex items-center gap-2 bg-[#5551ff] hover:bg-[#4440ef] text-white py-2.5 px-5 rounded-xl text-xs font-black transition-all shadow-md shadow-indigo-100"
@@ -135,7 +161,7 @@ export default function AnalyticsView() {
 
       {activeSegment === 'Product' ? (
         
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 animate-in fade-in duration-150">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 animate-in fade-in duration-150 ">
           <div className="xl:col-span-2 space-y-8 flex flex-col">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div className="bg-white rounded-3xl border border-slate-100/60 p-6 shadow-2xs relative overflow-hidden flex flex-col justify-between min-h-[150px]">
@@ -312,7 +338,10 @@ export default function AnalyticsView() {
                         <button className="w-full text-left px-3 py-1.5 text-[10px] font-black text-slate-600 hover:bg-slate-50 flex items-center gap-1.5">
                           <Edit2 size={10} className="text-[#5551ff]" /> Edit
                         </button>
-                        <button className="w-full text-left px-3 py-1.5 text-[10px] font-black text-rose-500 hover:bg-rose-50/50 flex items-center gap-1.5">
+                        <button 
+                          onClick={() => handleDeleteCustomer(idx)}
+                          className="w-full text-left px-3 py-1.5 text-[10px] font-black text-rose-500 hover:bg-rose-50/50 flex items-center gap-1.5"
+                        >
                           <Trash2 size={10} className="text-rose-500" /> Delete
                         </button>
                       </div>
@@ -321,85 +350,99 @@ export default function AnalyticsView() {
                 </div>
               );
             })}
+
+            {customers.length === 0 && (
+              <div className="text-center py-12 bg-white border border-dashed border-slate-200 rounded-2xl text-slate-400 font-bold text-xs uppercase tracking-wider">
+                No active records.
+              </div>
+            )}
           </div>
 
           <div className="col-span-12 lg:col-span-4 bg-white border border-slate-100 rounded-3xl p-6 space-y-6 shadow-2xs position-sticky top-6">
-            <div className="flex flex-col items-center text-center pb-2">
-              <img src={currentCustomer.avatar} alt="" className="w-16 h-16 rounded-full object-cover border-2 border-white ring-4 ring-[#EEEDFD] shadow-md mb-3" />
-              <h3 className="text-start text-base font-black text-[#0B0E1F] tracking-tight">{currentCustomer.name}</h3>
-              <p className="text-start text-[11px] font-bold text-slate-400 mt-0.5">{currentCustomer.role}</p>
-            </div>
-
-            <hr className="border-slate-50" />
-
-            <div className="space-y-4">
-              <h4 className="text-start text-xs font-black text-slate-800 tracking-wide uppercase">Contact Info</h4>
-              <div className="space-y-3.5 text-xs font-bold text-slate-500">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-[#F8F9FB] rounded-xl text-slate-400"><Mail size={14} /></div>
-                  <span className="text-start truncate">{currentCustomer.email}</span>
+            {customers.length > 0 ? (
+              <>
+                <div className="flex flex-col items-center text-center pb-2">
+                  <img src={currentCustomer.avatar} alt="" className="w-16 h-16 rounded-full object-cover border-2 border-white ring-4 ring-[#EEEDFD] shadow-md mb-3" />
+                  <h3 className="text-start text-base font-black text-[#0B0E1F] tracking-tight">{currentCustomer.name}</h3>
+                  <p className="text-start text-[11px] font-bold text-slate-400 mt-0.5">{currentCustomer.role}</p>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex p-2 bg-[#F8F9FB] rounded-xl text-slate-400"><Phone size={14} /></div>
-                  <span>{currentCustomer.phone}</span>
+
+                <hr className="border-slate-50" />
+
+                <div className="space-y-4">
+                  <h4 className="text-start text-xs font-black text-slate-800 tracking-wide uppercase">Contact Info</h4>
+                  <div className="space-y-3.5 text-xs font-bold text-slate-500">
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-[#F8F9FB] rounded-xl text-slate-400"><Mail size={14} /></div>
+                      <span className="text-start truncate">{currentCustomer.email}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="flex p-2 bg-[#F8F9FB] rounded-xl text-slate-400"><Phone size={14} /></div>
+                      <span>{currentCustomer.phone}</span>
+                    </div>
+                    <div className="flex items-center gap-3 items-start">
+                      <div className="p-2 bg-[#F8F9FB] rounded-xl text-slate-400 mt-0.5"><MapPin size={14} /></div>
+                      <span className="text-start leading-relaxed text-slate-500/90">{currentCustomer.address}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3 items-start">
-                  <div className="p-2 bg-[#F8F9FB] rounded-xl text-slate-400 mt-0.5"><MapPin size={14} /></div>
-                  <span className="text-start leading-relaxed text-slate-500/90">{currentCustomer.address}</span>
-                </div>
-              </div>
-            </div>
 
-            <hr className="border-slate-50" />
+                <hr className="border-slate-50" />
 
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h4 className="text-xs font-black text-slate-800 tracking-wide uppercase">Performance</h4>
-                <button className="text-slate-400 hover:text-slate-600"><MoreHorizontal size={15} /></button>
-              </div>
-
-              <div className="bg-[#FBFBFC] rounded-2xl p-4 border border-slate-50">
-                <div className="h-28 flex items-end justify-between px-2 relative">
-                  <div className="absolute left-[18%] bottom-[68px] bg-orange-500 text-white font-black text-[9px] px-2 py-0.5 rounded-md shadow-xs z-10">
-                    2.33k
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-black text-slate-800 tracking-wide uppercase">Performance</h4>
+                    <button className="text-slate-400 hover:text-slate-600"><MoreHorizontal size={15} /></button>
                   </div>
 
-                  {[
-                    { m: 'Jan', h: 'h-10', active: false },
-                    { m: 'Feb', h: 'h-20 bg-orange-400', active: true },
-                    { m: 'Mar', h: 'h-16', active: false },
-                    { m: 'Apr', h: 'h-12', active: false },
-                    { m: 'May', h: 'h-24', active: false },
-                    { m: 'Jun', h: 'h-28', active: false },
-                  ].map((bar, bIdx) => (
-                    <div key={bIdx} className="flex flex-col items-center gap-2 flex-1 group">
-                      <div className="w-2.5 bg-[#FFE6EB] rounded-full h-28 flex items-end overflow-hidden cursor-pointer">
-                        <div className={`w-full ${bar.active ? 'bg-orange-500' : 'bg-[#FF9EB0]/50 group-hover:bg-[#FF9EB0]'} ${bar.h} rounded-full transition-all`} />
+                  <div className="bg-[#FBFBFC] rounded-2xl p-4 border border-slate-50">
+                    <div className="h-28 flex items-end justify-between px-2 relative">
+                      <div className="absolute left-[18%] bottom-[68px] bg-orange-500 text-white font-black text-[9px] px-2 py-0.5 rounded-md shadow-xs z-10">
+                        2.33k
                       </div>
-                      <span className={`text-[9px] font-black ${bar.active ? 'text-slate-800' : 'text-slate-400'}`}>{bar.m}</span>
+
+                      {[
+                        { m: 'Jan', h: 'h-10', active: false },
+                        { m: 'Feb', h: 'h-20 bg-orange-400', active: true },
+                        { m: 'Mar', h: 'h-16', active: false },
+                        { m: 'Apr', h: 'h-12', active: false },
+                        { m: 'May', h: 'h-24', active: false },
+                        { m: 'Jun', h: 'h-28', active: false },
+                      ].map((bar, bIdx) => (
+                        <div key={bIdx} className="flex flex-col items-center gap-2 flex-1 group">
+                          <div className="w-2.5 bg-[#FFE6EB] rounded-full h-28 flex items-end overflow-hidden cursor-pointer">
+                            <div className={`w-full ${bar.active ? 'bg-orange-500' : 'bg-[#FF9EB0]/50 group-hover:bg-[#FF9EB0]'} ${bar.h} rounded-full transition-all`} />
+                          </div>
+                          <span className={`text-[9px] font-black ${bar.active ? 'text-slate-800' : 'text-slate-400'}`}>{bar.m}</span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-[#FBFBFC] border border-slate-50 rounded-2xl p-4 flex flex-col items-center justify-center relative">
-                  <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
-                    <path className="text-slate-100" strokeWidth="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <path className="text-amber-400" strokeDasharray="70, 100" strokeWidth="3.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  </svg>
-                  <div className="absolute text-[11px] font-black text-slate-800">70%</div>
-                </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-[#FBFBFC] border border-slate-50 rounded-2xl p-4 flex flex-col items-center justify-center relative">
+                      <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
+                        <path className="text-slate-100" strokeWidth="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path className="text-amber-400" strokeDasharray="70, 100" strokeWidth="3.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                      </svg>
+                      <div className="absolute text-[11px] font-black text-slate-800">70%</div>
+                    </div>
 
-                <div className="bg-[#FBFBFC] border border-slate-50 rounded-2xl p-4 flex flex-col items-center justify-center relative">
-                  <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
-                    <path className="text-slate-100" strokeWidth="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                    <path className="text-[#5551ff]" strokeDasharray="60, 100" strokeWidth="3.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                  </svg>
-                  <div className="absolute text-[11px] font-black text-slate-800">60%</div>
+                    <div className="bg-[#FBFBFC] border border-slate-50 rounded-2xl p-4 flex flex-col items-center justify-center relative">
+                      <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
+                        <path className="text-slate-100" strokeWidth="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path className="text-[#5551ff]" strokeDasharray="60, 100" strokeWidth="3.5" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                      </svg>
+                      <div className="absolute text-[11px] font-black text-slate-800">60%</div>
+                    </div>
+                  </div>
                 </div>
+              </>
+            ) : (
+              <div className="text-center py-12 text-slate-400 font-bold text-xs uppercase tracking-wider">
+                No customer selected.
               </div>
-            </div>
+            )}
           </div>
         </div>
       )}
@@ -443,7 +486,7 @@ export default function AnalyticsView() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="flex text-[11px] font-black text-slate-500 uppercase tracking-wide">First Name</label>
+                <label className="flex text-[11px] font-black text-slate-500 uppercase tracking-wide">First Name *</label>
                 <input 
                   type="text" 
                   required
@@ -454,9 +497,10 @@ export default function AnalyticsView() {
                 />
               </div>
               <div className="space-y-1.5">
-                <label className="flex text-[11px] font-black text-slate-500 uppercase tracking-wide">Last Name</label>
+                <label className="flex text-[11px] font-black text-slate-500 uppercase tracking-wide">Last Name *</label>
                 <input 
                   type="text"
+                  required
                   placeholder="Deo"
                   value={newCustomer.lastName}
                   onChange={(e) => setNewCustomer({...newCustomer, lastName: e.target.value})}
@@ -466,7 +510,7 @@ export default function AnalyticsView() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="flex text-[11px] font-black text-slate-500 uppercase tracking-wide">Email</label>
+              <label className="flex text-[11px] font-black text-slate-500 uppercase tracking-wide">Email *</label>
               <input 
                 type="email" 
                 required

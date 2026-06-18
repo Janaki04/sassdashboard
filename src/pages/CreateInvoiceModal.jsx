@@ -19,6 +19,8 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
     { id: 3, name: 'i phone 12', rate: 885, qty: 10 }
   ]);
 
+  const [submissionType, setSubmissionType] = useState('create');
+
   const handleProductChange = (id, field, value) => {
     setProducts(prev => prev.map(p => {
       if (p.id === id) {
@@ -27,11 +29,6 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
       return p;
     }));
   };
-  const handlesend=(text)=>{
-    toast.success(text)
-    onClose() 
-
-  }
 
   const addRow = () => {
     setProducts([...products, { id: Date.now(), name: '', rate: 0, qty: 1 }]);
@@ -47,23 +44,67 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!form.id.trim()) {
+      toast.error("Invoice ID is required.");
+      return;
+    }
+    if (!form.date) {
+      toast.error("Please select a valid date.");
+      return;
+    }
+    if (!form.name.trim()) {
+      toast.error("Recipient Name is required.");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(form.email.trim())) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    if (products.length === 0) {
+      toast.error("Please add at least one line item product descriptor.");
+      return;
+    }
+
+    for (let i = 0; i < products.length; i++) {
+      if (!products[i].name.trim()) {
+        toast.error(`Line item #${i + 1} has an empty product name.`);
+        return;
+      }
+      if (products[i].rate <= 0 || products[i].qty <= 0) {
+        toast.error(`Line item #${i + 1} ("${products[i].name}") must have a rate and quantity greater than 0.`);
+        return;
+      }
+    }
+
     onSave({
-      id: form.id,
-      name: form.name,
-      email: form.email,
+      id: form.id.trim(),
+      name: form.name.trim(),
+      email: form.email.trim(),
       date: new Date(form.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-      status: 'Pending',
+      status: submissionType === 'send' ? 'Sent' : 'Pending',
       star: false,
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80'
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80',
+      total: total
     });
+
+    if (submissionType === 'send') {
+      toast.success("Invoice transmitted and saved successfully!");
+    } else {
+      toast.success("Invoice compiled and created successfully!");
+    }
+
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex font-nunito items-center justify-center p-4 overflow-y-auto">
       <div className="bg-[#f8fafc] rounded-3xl w-full max-w-6xl shadow-2xl flex flex-col lg:flex-row max-h-[90vh] overflow-hidden relative border border-white">
         
-        <button onClick={onClose} className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 z-10 p-1 bg-white rounded-full shadow-sm">
+        <button type="button" onClick={onClose} className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 z-10 p-1 bg-white rounded-full shadow-sm">
           <X size={20} />
         </button>
 
@@ -78,11 +119,11 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="flex text-sm font-semibold text-[#0d1424]">Invoice Id</label>
+              <label className="flex text-sm font-semibold text-[#0d1424]">Invoice Id *</label>
               <input type="text" value={form.id} onChange={e => setForm({...form, id: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
             </div>
             <div className="space-y-1.5 relative">
-              <label className="flex text-sm font-semibold text-[#0d1424]">Date</label>
+              <label className="flex text-sm font-semibold text-[#0d1424]">Date *</label>
               <div className="relative">
                 <input type="date" value={form.date} onChange={e => setForm({...form, date: e.target.value})} className="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
                 <Calendar size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-indigo-500 pointer-events-none" />
@@ -91,13 +132,13 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
           </div>
 
           <div className="space-y-1.5">
-            <label className="flex text-sm font-semibold text-[#0d1424]">Name</label>
+            <label className="flex text-sm font-semibold text-[#0d1424]">Recipient Name *</label>
             <input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="flex text-sm font-semibold text-[#0d1424]">Email</label>
+              <label className="flex text-sm font-semibold text-[#0d1424]">Email *</label>
               <input type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
             </div>
             <div className="space-y-1.5 relative">
@@ -128,13 +169,13 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
               {products.map(product => (
                 <div key={product.id} className="grid grid-cols-12 gap-2 items-center">
                   <div className="col-span-5">
-                    <input type="text" value={product.name} onChange={e => handleProductChange(product.id, 'name', e.target.value)} className="w-full px-2.5 py-1.5 bg-slate-50 rounded-lg text-xs font-semibold text-indigo-600 focus:outline-none" />
+                    <input type="text" placeholder="Item configuration name" value={product.name} onChange={e => handleProductChange(product.id, 'name', e.target.value)} className="w-full px-2.5 py-1.5 bg-slate-50 rounded-lg text-xs font-semibold text-indigo-600 focus:outline-none border border-transparent focus:border-slate-100" />
                   </div>
                   <div className="col-span-3">
-                    <input type="number" value={product.rate} onChange={e => handleProductChange(product.id, 'rate', e.target.value)} className="w-full px-2.5 py-1.5 bg-slate-50 rounded-lg text-xs font-medium text-gray-700 focus:outline-none" />
+                    <input type="number" min="0" value={product.rate} onChange={e => handleProductChange(product.id, 'rate', e.target.value)} className="w-full px-2.5 py-1.5 bg-slate-50 rounded-lg text-xs font-medium text-gray-700 focus:outline-none" />
                   </div>
                   <div className="col-span-2">
-                    <input type="number" value={product.qty} onChange={e => handleProductChange(product.id, 'qty', e.target.value)} className="w-full px-2.5 py-1.5 bg-slate-50 rounded-lg text-xs font-medium text-gray-700 focus:outline-none" />
+                    <input type="number" min="1" value={product.qty} onChange={e => handleProductChange(product.id, 'qty', e.target.value)} className="w-full px-2.5 py-1.5 bg-slate-50 rounded-lg text-xs font-medium text-gray-700 focus:outline-none" />
                   </div>
                   <div className="col-span-2 flex items-center justify-between pl-1">
                     <span className="text-xs font-bold text-emerald-600">${product.rate * product.qty}</span>
@@ -148,14 +189,18 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
           </div>
 
           <div className="flex items-center gap-4 pt-4 border-t border-gray-50">
-            <button type="button" 
-            onClick ={()=>{handlesend("Send Created Sucessfully")}}
-            className="flex-1 py-3 text-sm font-bold text-indigo-600 bg-white border border-gray-100 rounded-xl hover:bg-slate-50 transition-colors text-center">
+            <button 
+              type="submit" 
+              onClick={() => setSubmissionType('send')}
+              className="flex-1 py-3 text-sm font-bold text-indigo-600 bg-white border border-gray-100 rounded-xl hover:bg-slate-50 transition-colors text-center"
+            >
               Send Invoice
             </button>
             <button 
-            onClick ={()=>{handlesend("Invoice Created Sucessfully")}}
-            type="submit" className="flex-1 py-3 text-sm font-bold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition-all shadow-md shadow-indigo-100 text-center">
+              type="submit" 
+              onClick={() => setSubmissionType('create')}
+              className="flex-1 py-3 text-sm font-bold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition-all shadow-md shadow-indigo-100 text-center"
+            >
               Create Invoice
             </button>
           </div>
@@ -165,10 +210,10 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
           <div className="flex items-center justify-between">
             <h2 className="text-start text-lg font-bold text-[#0d1424]">Preview</h2>
             <div className="flex items-center gap-2">
-              <button className="p-2 bg-white rounded-xl shadow-sm border border-slate-100 text-indigo-600 hover:text-indigo-700">
+              <button type="button" onClick={() => toast.info("Preparing document layout download...")} className="p-2 bg-white rounded-xl shadow-sm border border-slate-100 text-indigo-600 hover:text-indigo-700">
                 <Download size={16} />
               </button>
-              <button className="p-2 bg-white rounded-xl shadow-sm border border-slate-100 text-indigo-600 hover:text-indigo-700">
+              <button type="button" onClick={() => toast.info("Spooling interface to device hardware channel...")} className="p-2 bg-white rounded-xl shadow-sm border border-slate-100 text-indigo-600 hover:text-indigo-700">
                 <Printer size={16} />
               </button>
             </div>
