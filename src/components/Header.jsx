@@ -18,3 +18,6 @@ export default function Header({ onMenuClick, currentTitle }) {
     </header>
   );
 }
+
+
+

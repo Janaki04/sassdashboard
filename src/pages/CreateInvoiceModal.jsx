@@ -101,65 +101,68 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex font-nunito items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-[#f8fafc] rounded-3xl w-full max-w-6xl shadow-2xl flex flex-col lg:flex-row max-h-[90vh] overflow-hidden relative border border-white">
+    <div className="fixed inset-0 bg-slate-900/40 dark:bg-slate-950/60 backdrop-blur-sm z-50 flex font-nunito items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-[#f8fafc] dark:bg-slate-950 rounded-3xl w-full max-w-6xl shadow-2xl flex flex-col lg:flex-row max-h-[90vh] overflow-hidden relative border border-white dark:border-slate-800/40">
         
-        <button type="button" onClick={onClose} className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 z-10 p-1 bg-white rounded-full shadow-sm">
+        {/* MODAL CLOSE CONTROLLER */}
+        <button type="button" onClick={onClose} className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 z-10 p-1 bg-white dark:bg-slate-800 rounded-full shadow-sm border border-transparent dark:border-slate-700">
           <X size={20} />
         </button>
 
-        <form onSubmit={handleSubmit} className="w-full lg:w-1/2 p-6 lg:p-8 overflow-y-auto bg-white space-y-6">
-          <h2 className="text-start text-xl font-bold text-[#0d1424]">Create New Invoice</h2>
+        {/* INVOICE MANIFEST FORM FIELD (LEFT SIDE) */}
+        <form onSubmit={handleSubmit} className="w-full lg:w-1/2 p-6 lg:p-8 overflow-y-auto bg-white dark:bg-slate-900 space-y-6 border-r border-transparent dark:border-slate-800/60">
+          <h2 className="text-start text-xl font-bold text-[#0d1424] dark:text-slate-100">Create New Invoice</h2>
 
           <div className="flex justify-center">
-            <div className="w-24 h-24 rounded-full bg-slate-50 border border-dashed border-gray-200 flex flex-col items-center justify-center text-gray-400 hover:bg-slate-100/80 cursor-pointer transition-colors">
-              <Camera size={24} className="text-slate-400 mb-1" />
+            <div className="w-24 h-24 rounded-full bg-slate-50 dark:bg-slate-950 border border-dashed border-gray-200 dark:border-slate-800 flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:bg-slate-100/80 dark:hover:bg-slate-800/60 cursor-pointer transition-colors">
+              <Camera size={24} className="text-slate-400 dark:text-slate-500 mb-1" />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="flex text-sm font-semibold text-[#0d1424]">Invoice Id *</label>
-              <input type="text" value={form.id} onChange={e => setForm({...form, id: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <label className="flex text-sm font-semibold text-[#0d1424] dark:text-slate-300">Invoice Id *</label>
+              <input type="text" value={form.id} onChange={e => setForm({...form, id: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800/60 rounded-xl text-sm font-medium text-gray-700 dark:text-slate-200 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-500/20" />
             </div>
             <div className="space-y-1.5 relative">
-              <label className="flex text-sm font-semibold text-[#0d1424]">Date *</label>
+              <label className="flex text-sm font-semibold text-[#0d1424] dark:text-slate-300">Date *</label>
               <div className="relative">
-                <input type="date" value={form.date} onChange={e => setForm({...form, date: e.target.value})} className="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-                <Calendar size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-indigo-500 pointer-events-none" />
+                <input type="date" value={form.date} onChange={e => setForm({...form, date: e.target.value})} className="w-full pl-4 pr-10 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800/60 rounded-xl text-sm font-medium text-gray-700 dark:text-slate-200 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-500/20 [color-scheme:light] dark:[color-scheme:dark]" />
+                <Calendar size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-indigo-500 dark:text-indigo-400 pointer-events-none" />
               </div>
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label className="flex text-sm font-semibold text-[#0d1424]">Recipient Name *</label>
-            <input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            <label className="flex text-sm font-semibold text-[#0d1424] dark:text-slate-300">Recipient Name *</label>
+            <input type="text" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800/60 rounded-xl text-sm font-medium text-gray-700 dark:text-slate-200 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-500/20" />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="flex text-sm font-semibold text-[#0d1424]">Email *</label>
-              <input type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              <label className="flex text-sm font-semibold text-[#0d1424] dark:text-slate-300">Email *</label>
+              <input type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800/60 rounded-xl text-sm font-medium text-gray-700 dark:text-slate-200 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-500/20" />
             </div>
             <div className="space-y-1.5 relative">
-              <label className="flex text-sm font-semibold text-[#0d1424]">Address</label>
+              <label className="flex text-sm font-semibold text-[#0d1424] dark:text-slate-300">Address</label>
               <div className="relative">
-                <input type="text" value={form.address} onChange={e => setForm({...form, address: e.target.value})} className="w-full pl-4 pr-10 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-                <MapPin size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-indigo-500 pointer-events-none" />
+                <input type="text" value={form.address} onChange={e => setForm({...form, address: e.target.value})} className="w-full pl-4 pr-10 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-800/60 rounded-xl text-sm font-medium text-gray-700 dark:text-slate-200 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-500/20" />
+                <MapPin size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-indigo-500 dark:text-indigo-400 pointer-events-none" />
               </div>
             </div>
           </div>
 
+          {/* DYNAMIC LINE ITEM CONFIGURATION COMPONENT */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="text-start text-sm font-bold text-[#0d1424]">Product Description</h3>
-              <button type="button" onClick={addRow} className="p-1.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+              <h3 className="text-start text-sm font-bold text-[#0d1424] dark:text-slate-300">Product Description</h3>
+              <button type="button" onClick={addRow} className="p-1.5 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors">
                 <Plus size={16} />
               </button>
             </div>
 
             <div className="space-y-2">
-              <div className="grid grid-cols-12 gap-2 text-xs font-semibold text-gray-400 px-1">
+              <div className="grid grid-cols-12 gap-2 text-xs font-semibold text-gray-400 dark:text-slate-500 px-1">
                 <div className="flex col-span-5">Product Name</div>
                 <div className="flex col-span-3">Rate</div>
                 <div className="flex col-span-2">QTY</div>
@@ -169,17 +172,17 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
               {products.map(product => (
                 <div key={product.id} className="grid grid-cols-12 gap-2 items-center">
                   <div className="col-span-5">
-                    <input type="text" placeholder="Item configuration name" value={product.name} onChange={e => handleProductChange(product.id, 'name', e.target.value)} className="w-full px-2.5 py-1.5 bg-slate-50 rounded-lg text-xs font-semibold text-indigo-600 focus:outline-none border border-transparent focus:border-slate-100" />
+                    <input type="text" placeholder="Item configuration name" value={product.name} onChange={e => handleProductChange(product.id, 'name', e.target.value)} className="w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-950 rounded-lg text-xs font-semibold text-indigo-600 dark:text-indigo-400 focus:outline-none border border-transparent focus:border-slate-100 dark:focus:border-slate-800" />
                   </div>
                   <div className="col-span-3">
-                    <input type="number" min="0" value={product.rate} onChange={e => handleProductChange(product.id, 'rate', e.target.value)} className="w-full px-2.5 py-1.5 bg-slate-50 rounded-lg text-xs font-medium text-gray-700 focus:outline-none" />
+                    <input type="number" min="0" value={product.rate} onChange={e => handleProductChange(product.id, 'rate', e.target.value)} className="w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-950 rounded-lg text-xs font-medium text-gray-700 dark:text-slate-200 border border-transparent focus:border-slate-100 dark:focus:border-slate-800 focus:outline-none" />
                   </div>
                   <div className="col-span-2">
-                    <input type="number" min="1" value={product.qty} onChange={e => handleProductChange(product.id, 'qty', e.target.value)} className="w-full px-2.5 py-1.5 bg-slate-50 rounded-lg text-xs font-medium text-gray-700 focus:outline-none" />
+                    <input type="number" min="1" value={product.qty} onChange={e => handleProductChange(product.id, 'qty', e.target.value)} className="w-full px-2.5 py-1.5 bg-slate-50 dark:bg-slate-950 rounded-lg text-xs font-medium text-gray-700 dark:text-slate-200 border border-transparent focus:border-slate-100 dark:focus:border-slate-800 focus:outline-none" />
                   </div>
                   <div className="col-span-2 flex items-center justify-between pl-1">
-                    <span className="text-xs font-bold text-emerald-600">${product.rate * product.qty}</span>
-                    <button type="button" onClick={() => removeRow(product.id)} className="text-rose-400 hover:text-rose-600 p-1">
+                    <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">${product.rate * product.qty}</span>
+                    <button type="button" onClick={() => removeRow(product.id)} className="text-rose-400 dark:text-rose-500 hover:text-rose-600 dark:hover:text-rose-400 p-1">
                       <Trash2 size={14} />
                     </button>
                   </div>
@@ -188,42 +191,44 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-4 pt-4 border-t border-gray-50">
+          <div className="flex items-center gap-4 pt-4 border-t border-gray-50 dark:border-slate-800/60">
             <button 
               type="submit" 
               onClick={() => setSubmissionType('send')}
-              className="flex-1 py-3 text-sm font-bold text-indigo-600 bg-white border border-gray-100 rounded-xl hover:bg-slate-50 transition-colors text-center"
+              className="flex-1 py-3 text-sm font-bold text-indigo-600 dark:text-indigo-400 bg-white dark:bg-slate-900 border border-gray-100 dark:border-slate-800 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors text-center"
             >
               Send Invoice
             </button>
             <button 
               type="submit" 
               onClick={() => setSubmissionType('create')}
-              className="flex-1 py-3 text-sm font-bold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 transition-all shadow-md shadow-indigo-100 text-center"
+              className="flex-1 py-3 text-sm font-bold text-white bg-indigo-600 dark:bg-indigo-500 rounded-xl hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-all shadow-md shadow-indigo-100 dark:shadow-none text-center"
             >
               Create Invoice
             </button>
           </div>
         </form>
 
-        <div className="w-full lg:w-1/2 p-6 lg:p-8 bg-[#f8fafc] overflow-y-auto space-y-4 flex flex-col">
+        {/* INVOICE LIVE DISPLAY PREVIEW ACTION (RIGHT SIDE) */}
+        <div className="w-full lg:w-1/2 p-6 lg:p-8 bg-[#f8fafc] dark:bg-slate-950 overflow-y-auto space-y-4 flex flex-col">
           <div className="flex items-center justify-between">
-            <h2 className="text-start text-lg font-bold text-[#0d1424]">Preview</h2>
+            <h2 className="text-start text-lg font-bold text-[#0d1424] dark:text-slate-100">Preview</h2>
             <div className="flex items-center gap-2">
-              <button type="button" onClick={() => toast.info("Preparing document layout download...")} className="p-2 bg-white rounded-xl shadow-sm border border-slate-100 text-indigo-600 hover:text-indigo-700">
+              <button type="button" onClick={() => toast.info("Preparing document layout download...")} className="p-2 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">
                 <Download size={16} />
               </button>
-              <button type="button" onClick={() => toast.info("Spooling interface to device hardware channel...")} className="p-2 bg-white rounded-xl shadow-sm border border-slate-100 text-indigo-600 hover:text-indigo-700">
+              <button type="button" onClick={() => toast.info("Spooling interface to device hardware channel...")} className="p-2 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300">
                 <Printer size={16} />
               </button>
             </div>
           </div>
 
-          <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-sm text-[11px] text-slate-500 space-y-6 flex-1 flex flex-col justify-between">
+          {/* SIMULATED EMBEDDED SHEET LAYOUT */}
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 p-6 shadow-sm text-[11px] text-slate-500 dark:text-gray-400 space-y-6 flex-1 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start">
-                <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white text-base">J</div>
-                <div className="text-right space-y-0.5 text-[9px]">
+                <div className="w-8 h-8 rounded-lg bg-indigo-600 dark:bg-indigo-500 flex items-center justify-center font-bold text-white text-base">J</div>
+                <div className="text-right space-y-0.5 text-[9px] text-slate-500 dark:text-gray-400">
                   <p className='text-start'>your.mail@gmail.com</p>
                   <p className='text-start'>+386 989 271 3115</p>
                 </div>
@@ -231,34 +236,34 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
 
               <div className="flex justify-between items-end mt-6">
                 <div className="space-y-1">
-                  <p className="text-start text-[9px] uppercase tracking-wider font-bold text-slate-400">Recipient</p>
-                  <p className="text-start font-bold text-slate-800">{form.name || 'John Smith'}</p>
-                  <p className="text-start text-[10px] leading-relaxed">4304 Liberty Avenue<br/>92680 Tustin, CA<br/>VAT no.: 12345678</p>
-                  <p className="text-start pt-1 text-[9px] text-indigo-500">{form.email}</p>
+                  <p className="text-start text-[9px] uppercase tracking-wider font-bold text-slate-400 dark:text-slate-500">Recipient</p>
+                  <p className="text-start font-bold text-slate-800 dark:text-slate-200">{form.name || 'John Smith'}</p>
+                  <p className="text-start text-[10px] leading-relaxed text-slate-500 dark:text-gray-400">4304 Liberty Avenue<br/>92680 Tustin, CA<br/>VAT no.: 12345678</p>
+                  <p className="text-start pt-1 text-[9px] text-indigo-500 dark:text-indigo-400">{form.email}</p>
                 </div>
                 <div className="text-right space-y-1">
-                  <h3 className="text-start text-lg font-bold text-slate-800 tracking-tight leading-none mb-1">Invoice</h3>
-                  <p><span className="text-start font-semibold text-slate-400 text-[9px]">INVOICE NO.</span> <br/>{form.id || '001/2021'}</p>
-                  <p><span className="text-start font-semibold text-slate-400 text-[9px]">INVOICE DATE</span> <br/>{form.date || 'January 1, 2021'}</p>
+                  <h3 className="text-start text-lg font-bold text-slate-800 dark:text-slate-200 tracking-tight leading-none mb-1">Invoice</h3>
+                  <p><span className="text-start font-semibold text-slate-400 dark:text-slate-500 text-[9px]">INVOICE NO.</span> <br/><span className="text-slate-700 dark:text-gray-300">{form.id || '001/2021'}</span></p>
+                  <p><span className="text-start font-semibold text-slate-400 dark:text-slate-500 text-[9px]">INVOICE DATE</span> <br/><span className="text-slate-700 dark:text-gray-300">{form.date || 'January 1, 2021'}</span></p>
                 </div>
               </div>
 
               <table className="w-full mt-8 border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-100 text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+                  <tr className="border-b border-slate-100 dark:border-slate-800 text-[9px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">
                     <th className="py-2 text-left">Task Description</th>
                     <th className="py-2 text-center">Hours</th>
                     <th className="py-2 text-center">Rate</th>
                     <th className="py-2 text-right">Amount</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-50 text-slate-700 font-medium">
+                <tbody className="divide-y divide-slate-50 dark:divide-slate-800/40 text-slate-700 dark:text-gray-300 font-medium">
                   {products.map(product => (
                     <tr key={product.id}>
-                      <td className="py-2 text-left text-slate-800">{product.name || 'Untitled item'}</td>
+                      <td className="py-2 text-left text-slate-800 dark:text-slate-200">{product.name || 'Untitled item'}</td>
                       <td className="py-2 text-center">{product.qty}</td>
                       <td className="py-2 text-center">{product.rate} USD</td>
-                      <td className="py-2 text-right font-bold">{product.rate * product.qty},00 USD</td>
+                      <td className="py-2 text-right font-bold text-slate-800 dark:text-slate-100">{product.rate * product.qty},00 USD</td>
                     </tr>
                   ))}
                 </tbody>
@@ -266,24 +271,24 @@ export default function CreateInvoiceModal({ isOpen, onClose, onSave }) {
             </div>
 
             <div className="space-y-4">
-              <div className="w-1/2 ml-auto space-y-1.5 border-t border-slate-100 pt-3 text-[10px]">
+              <div className="w-1/2 ml-auto space-y-1.5 border-t border-slate-100 dark:border-slate-800 pt-3 text-[10px]">
                 <div className="flex justify-between">
                   <span>SUBTOTAL</span>
-                  <span className="font-bold text-slate-800">{subtotal},00 USD</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-200">{subtotal},00 USD</span>
                 </div>
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-slate-400 dark:text-slate-500">
                   <span>DISCOUNT 5%</span>
                   <span className="font-bold">{discount},00 USD</span>
                 </div>
-                <div className="flex justify-between text-sm font-bold text-slate-800 pt-1 border-t border-dashed border-slate-100">
+                <div className="flex justify-between text-sm font-bold text-slate-800 dark:text-slate-200 pt-1 border-t border-dashed border-slate-100 dark:border-slate-800">
                   <span>TOTAL</span>
-                  <span className="text-indigo-600">${total},00 USD</span>
+                  <span className="text-indigo-600 dark:text-indigo-400">${total},00 USD</span>
                 </div>
               </div>
 
-              <div className="text-center text-[8px] text-slate-400 border-t border-slate-100 pt-4 space-y-1">
+              <div className="text-center text-[8px] text-slate-400 dark:text-slate-500 border-t border-slate-100 dark:border-slate-800 pt-4 space-y-1">
                 <p>Transfer the amount to the business account below. Please include invoice number on your check.</p>
-                <p className="font-medium text-slate-600">BANK: <span className="font-bold text-slate-800">FTSBUS33</span> • IBAN: <span className="font-bold text-slate-800">GB82-1111-2222-3333</span></p>
+                <p className="font-medium text-slate-600 dark:text-gray-400">BANK: <span className="font-bold text-slate-800 dark:text-slate-200">FTSBUS33</span> • IBAN: <span className="font-bold text-slate-800 dark:text-slate-200">GB82-1111-2222-3333</span></p>
               </div>
             </div>
 
